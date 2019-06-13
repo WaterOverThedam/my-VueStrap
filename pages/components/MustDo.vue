@@ -30,8 +30,8 @@
                     <span class="glyphicon glyphicon-info-sign"></span>
                     <strong>转课待处理</strong>
                     <ul class="ui">
-                            <li v-for="s of data_zk"
-                             ><label v-html="s.msg"></label><a class="text text-danger" href="https://bbk.800app.com/index.jsp?mlist=1&mfs1=crm_sj&menu=3&mid={{s.id}}"
+                            <li v-for="s of data_zk">
+                                <label v-html="s.msg"></label><a class="text text-danger" href="https://bbk.800app.com/index.jsp?mlist=1&mfs1=crm_sj&menu=3&mid={{s.id}}"
                                     target="_blank">转到家庭</a>
                             </li>
                     </ul>
@@ -46,12 +46,19 @@
                         </li>
                     </ul>
                 </div>
+
+                    <div v-show="showDaily" class="ui">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <strong>每日安全检查</strong>
+                    <ul class="ui">
+                        <label>您今日{{pm}}的安全检查未执行.</label><a class="text text-danger" href="https://bbk.800app.com/uploadfile/staticresource/238592/279833/trainingDaily_C.html" target="_blank">中心每日安全检查</a>
+                    </ul>
+                </div>
                 <embed class='incompatible' id="music" src="" width="0" height="0">
             </alert>
         </div>
     </div>
 </template>
-
 
 <script>
 	import alert from '@/src/Alert.vue'
@@ -76,7 +83,9 @@
 					isCheck: false,
 					showTop: false,
 					showYuyue: false,
-					showzk:false,
+                    showzk:false,
+                    showDaily:false,
+                    pm:null,
 					idgym: "",
 					gym: "",
                     role: "",
@@ -245,6 +254,7 @@
                            this.getchkRec_jsonp()
                            this.getYuyue();
                            this.getCampaignTip();
+                           this.getDaily();
                         }
             　　　   },
             　　　   deep: true
@@ -338,6 +348,59 @@
                                 //self.inp=res.msg;
                             };
                         });
+                },
+        
+                getDaily:function(){
+                    var self=this
+                     var hour = new Date().getHours();
+                     var minute=new Date().getMinutes();
+                     if(hour<8 ||(hour==8 && minute<30)){ //早上8:30前不提醒
+                         self.showDaily=false;
+                         return false;
+                     }
+                     var date=new Date();
+                     var year=date.getFullYear();
+                     var month=date.getMonth()+1;
+                     var day=date.getDate();
+                     if( hour<14){//上午
+                     self.pm="上午";
+                      var sql = sql_getdaily.replace(/iduser/g,self.select.iduser).replace(/@column/g,'classam').replace(/@date/g,year+'-'+month+'-'+day);
+                      sql = GB2312UnicodeConverter.ToUnicode(sql);
+                      self.$http.jsonp(url_jsonp, {
+                        sql1: sql
+                    }, {
+                            jsonp: 'callback'
+                        }).then(function (res) {
+                            var res = res.data.info[0].rec;
+                            if (res[0]) {
+                                if (res[0].sum>0) {
+                                    self.showDaily = true;
+                                    self.showTop = true;
+                                }
+                            }
+                          
+                        });
+
+                     }
+                     if(hour>=14){//下午
+                          self.pm="下午";
+                      var sql = sql_getdaily.replace(/iduser/g,self.select.iduser).replace(/@column/g,'classam').replace(/@date/g,year+'-'+month+'-'+day);
+                      sql = GB2312UnicodeConverter.ToUnicode(sql);
+                      self.$http.jsonp(url_jsonp, {
+                        sql1: sql
+                    }, {
+                            jsonp: 'callback'
+                        }).then(function (res) {
+                            var res = res.data.info[0].rec;
+                            if (res[0]) {
+                                if (res[0].sum>0) {
+                                    self.showDaily = true;
+                                    self.showTop = true;
+                                }
+                            }
+                          
+                        });
+                     }
                 },
                 getCampaignTip: function () {
                     var self = this;
