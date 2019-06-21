@@ -745,10 +745,9 @@ export default {
 		    if(!this.validate()) return;
 			var self=this;
 			self.select.start=true;
-			var gym_selected;
-			if(typeof self.select.gym_selected=='string'){
-				gym_selected="all";
-			}else{
+			var gym_selected=self.select.gym_selected;
+			//console.error( self.select.gym_selected)
+			if(typeof self.select.gym_selected!='string'){
 				gym_selected=self.select.gym_selected[0];
 			}
 			self.$http.jsonp(url_coupon,{
