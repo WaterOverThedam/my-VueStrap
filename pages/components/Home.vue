@@ -578,7 +578,7 @@ export default {
 
 		  //预售卡活动
 		  var arr=['预售'];
-		  var fields=['dtclass'];
+		  var fields=['deposit'];
 		  if (fields.indexOf(item)!=-1 && !arr.find(function(i){
 				if(val.indexOf(i)!=-1) return true;
 			})) return false;
@@ -745,12 +745,18 @@ export default {
 		    if(!this.validate()) return;
 			var self=this;
 			self.select.start=true;
+			var gym_selected;
+			if(typeof self.select.gym_selected=='string'){
+				gym_selected="all";
+			}else{
+				gym_selected=self.select.gym_selected[0];
+			}
 			self.$http.jsonp(url_coupon,{
-                page: self.pageNow,
-                centerid: self.select.gym_selected,
-				campain: self.select.campaign_selected,
+                page: self.pagenation.pageNow,
+                centerid: gym_selected,
+				campain: self.select.campaign_selected[0],
 				search: self.search&&self.search.trim(),
-				pageSize:11
+				pageSize:self.pagenation.pageSize
             },{
                 jsonp:'callback'
             }).then(function(res){
@@ -763,9 +769,11 @@ export default {
 	                   sql_data +=d.phone+"'phone,'"+d.centerid+"'centerid,'"+(d.user_name||"")+"'user_name,'";
 					   sql_data +=d.coupon_name+"'coupon_name,'"+d.end_date+"'end_date,'"+d.status+"'status union all ";
 					})
+					var total=res.total;
 					sql_data = sql_data.slice(0,-11);
 					tbl_coupon = tbl_coupon.replace('@sql_data',sql_data);
-					tbl_coupon = this.fn_pager(tbl_coupon,this.options)
+					var options={pageSize:this.pagenation.pageSize,pageNow:1,order:this.pagenation.order,condition:this.condition} 
+					//tbl_coupon = this.fn_pager(tbl_coupon,options);
 					//console.error(tbl_coupon)
                     self.$http.post(
                          url_local,
@@ -777,7 +785,8 @@ export default {
                        )
                        .then(function(res){
 							if(res.status==200){
-								self.select.data=res.data;
+								self.select.data={total:total,arr:res.data&&res.data.arr};
+								self.select.data.sql=res.data&&res.data.sql;
 							}
 							self.select.start=false;
                        })
