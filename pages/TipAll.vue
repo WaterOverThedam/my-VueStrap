@@ -117,7 +117,7 @@ export default {
             var self=this
             //281584(月总)  292939 246152(陈婕) 301931(pd)
             var sql=sql_quanxian
-            //sql=sql.replace('iduser',281584);
+            //sql=sql.replace('iduser',322034);
             var param=GetRequest() 
             if(param&&param.iduser){
                sql = sql.replace(/iduser/ig,param.iduser);

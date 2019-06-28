@@ -124,7 +124,9 @@
 					{name:'营业业执照',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
 					{name:'中心场地租凭协议',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
 					{name:'保险合同扫描件',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
-					{name:'中心消防合格证',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""}
+					{name:'中心消防合格证',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
+					{name:'承诺函',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
+					{name:'中心照片(打包)',form:'压缩文件',type:['zip','rar'],result:""}
 				],
 				visible: false,
 				tasks:[],
