@@ -75,6 +75,7 @@ export default {
                   &&self.select.acl.indexOf("运营顾问")==-1
                   &&self.select.acl.indexOf("市场专员")==-1
                   &&self.select.acl.indexOf("月球运营总监开发")==-1
+                  &&self.select.acl.indexOf("测试员工")==-1
                   &&self.select.acl.indexOf("市场顾问")==-1)){
                     gyms.unshift({id:"all",name:"所有中心"})
                 }
