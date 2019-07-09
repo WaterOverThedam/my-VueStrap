@@ -16,8 +16,9 @@
                     <code>{{item.label=='月销售冠军'?item.value:item.value+'%'}}</code>
                     <b v-if="item.label=='月销售冠军'">￥</b> 
                     <b v-if="item.label!='月销售冠军'&&item.standard-item.value>0">低于标准</b> 
-                    <b v-if="item.label!='月销售冠军'&&item.standard-item.value<0">>达到标准</b> 
+                    <b v-if="item.label!='月销售冠军'&&item.standard-item.value<0">达到标准</b> 
                     <Tag color="default">{{item.label=='月销售冠军'?item.standard:item.standard+'%'}}</Tag>
+                    <span v-if="item.label!='月销售冠军'">&nbsp;&nbsp;本月最高<code>{{item.maxer+'%'}}</code></span>
                   </p>
                   <br v-else/>
                 </template>
@@ -117,7 +118,7 @@ export default {
             var self=this
             //281584(月总)  292939 246152(陈婕) 301931(pd)
             var sql=sql_quanxian
-            //sql=sql.replace('iduser',322034);
+            sql=sql.replace('iduser',322034);
             var param=GetRequest() 
             if(param&&param.iduser){
                sql = sql.replace(/iduser/ig,param.iduser);
@@ -181,6 +182,7 @@ export default {
                         });
                         indx.items=[];
                         var champ=res["champion"]&&JSON.parse(res["champion"]);
+                        var maxer=res["maxer"]&&JSON.parse(res["maxer"]);
                         if(champ){
                             indx.items.push({
                                 label:"月销售冠军",
@@ -189,20 +191,24 @@ export default {
                             })
                             indx.items.push({}); //空行
                         }
+               
                         indx.items.push({
                             label:"体验邀约率",
                             value:res["体验预约率"],
-                            standard:res["标准体验预约率"]
+                            standard:res["标准体验预约率"],
+                            maxer:maxer["本月预约体验率"]
                         })
                         indx.items.push({
                             label:"体验出勤率",
                             value:res["体验出勤率"],
-                            standard:res["标准体验出勤率"]
+                            standard:res["标准体验出勤率"],
+                            maxer:maxer["本月体验出席率"]
                         })
                         indx.items.push({
                             label:"新约转化率",
                             value:res["新约转化率"],
-                            standard:res["标准新约转化率"]
+                            standard:res["标准新约转化率"],
+                            maxer:maxer["本月新约转化率"]
                         })
                     
                         if(res.hasmember==1){
@@ -210,7 +216,8 @@ export default {
                             indx.items.push({
                                 label:"会员出勤率",
                                 value:res["会员总出勤率"],
-                                standard:res["标准会员总出勤率"]
+                                standard:res["标准会员总出勤率"],
+                                maxer:maxer["会员出勤率"]
                             })
                         }
  
