@@ -8,18 +8,20 @@
             </div>
             <div slot="modal-body" class="modal-body">
                 <template v-for="item of indx.items" >
-                  <p v-if="item.label" style="padding-left:10%">
-                    <Tag color="success" v-if="item.label=='月销售冠军'">Success</Tag>
-                    <Tag color="error"   v-if="item.label!='月销售冠军'&&item.standard-item.value>0">Warning</Tag>
-                    <Tag color="success" v-if="item.label!='月销售冠军'&&item.standard-item.value<0">Success</Tag>
-                    &nbsp;&nbsp;{{item.label}}
-                    <code>{{item.label=='月销售冠军'?item.value:item.value+'%'}}</code>
-                    <b v-if="item.label=='月销售冠军'">￥</b> 
-                    <b v-if="item.label!='月销售冠军'&&item.standard-item.value>0">低于标准</b> 
-                    <b v-if="item.label!='月销售冠军'&&item.standard-item.value<0">达到标准</b> 
-                    <Tag color="default">{{item.label=='月销售冠军'?item.standard:item.standard+'%'}}</Tag>
-                    <span v-if="item.label!='月销售冠军'">&nbsp;&nbsp;本月最高<code>{{item.maxer+'%'}}</code></span>
-                  </p>
+                    <tooltip placement="left" :content="formula(item.label)">
+                        <p  v-if="item.label" style="padding-left:10%">
+                            <Tag color="success" v-if="item.label=='月销售冠军'">Success</Tag>
+                            <Tag color="error"   v-if="item.label!='月销售冠军'&&item.standard-item.value>0">Warning</Tag>
+                            <Tag color="success" v-if="item.label!='月销售冠军'&&item.standard-item.value<0">Success</Tag>
+                            &nbsp;&nbsp;{{item.label}}
+                            <code>{{item.label=='月销售冠军'?item.value:item.value+'%'}}</code>
+                            <b v-if="item.label=='月销售冠军'">￥</b> 
+                            <b v-if="item.label!='月销售冠军'&&item.standard-item.value>0">低于标准</b> 
+                            <b v-if="item.label!='月销售冠军'&&item.standard-item.value<0">达到标准</b> 
+                            <Tag color="default">{{item.label=='月销售冠军'?item.standard:item.standard+'%'}}</Tag>
+                            <span v-if="item.label!='月销售冠军'">&nbsp;&nbsp;本月最高<code>{{item.maxer+'%'}}</code></span>
+                        </p>
+                    </tooltip>
                   <br v-else/>
                 </template>
             </div>
@@ -50,6 +52,7 @@ import Preparations from './components/Preparations.vue';
 import modal from '@/src/Modal.vue';
 import Tag from 'src/tag';
 import alert from '@/src/Alert.vue';
+import tooltip from '@/src/Tooltip.vue';
 export default {
 	  data(){
 		return  { 
@@ -77,6 +80,7 @@ export default {
            Preparations,
            modal,
            Tag,
+           tooltip,
            alert
       },
 	  computed:{
@@ -113,6 +117,13 @@ export default {
       methods: {
         toJson:function(str){
             return JSON.parse(str);
+        },
+        formula:function(type){
+            if(type=="体验邀约率") return "体验邀约率 = 本期新增家庭已预约体验人次 / 本期新增家庭数"
+            if(type=="体验出勤率") return "体验出勤率 = 本期体验出勤人次 / 本期预约体验人次"
+            if(type=="新约转化率") return "新约转化率 = 本期新报课程合同数（不含小课包合同） / 本期非会员体验出勤家庭数"
+            if(type=="会员出勤率") return "会员出勤率 = ( 本期补课出勤人次 + 本期报名实际出勤人次 ) / ( 本期预约补课人次 + 本期报名课程人次 )" 
+            return type;
         },
         getAcl:function(){
             var self=this
@@ -257,4 +268,5 @@ export default {
     [v-cloak]{
         display:none;
     }
+ 
 </style>
