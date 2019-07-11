@@ -8,8 +8,8 @@
             </div>
             <div slot="modal-body" class="modal-body">
                 <template v-for="item of indx.items" >
-                    <tooltip placement="left" :content="formula(item.label)">
                         <p  v-if="item.label" style="padding-left:10%">
+                          <tooltip placement="right" :content="formula(item.label)">
                             <Tag color="success" v-if="item.label=='月销售冠军'">Success</Tag>
                             <Tag color="error"   v-if="item.label!='月销售冠军'&&item.standard-item.value>0">Warning</Tag>
                             <Tag color="success" v-if="item.label!='月销售冠军'&&item.standard-item.value<0">Success</Tag>
@@ -20,9 +20,9 @@
                             <b v-if="item.label!='月销售冠军'&&item.standard-item.value<0">达到标准</b> 
                             <Tag color="default">{{item.label=='月销售冠军'?item.standard:item.standard+'%'}}</Tag>
                             <span v-if="item.label!='月销售冠军'">&nbsp;&nbsp;本月最高<code>{{item.maxer+'%'}}</code></span>
+                          </tooltip>
                         </p>
-                    </tooltip>
-                  <br v-else/>
+                        <br v-else/>
                 </template>
             </div>
             <div slot="modal-footer" >
@@ -129,7 +129,7 @@ export default {
             var self=this
             //281584(月总)  292939 246152(陈婕) 301931(pd)
             var sql=sql_quanxian
-            sql=sql.replace('iduser',322034);
+            sql=sql.replace('iduser',246152);
             var param=GetRequest() 
             if(param&&param.iduser){
                sql = sql.replace(/iduser/ig,param.iduser);
