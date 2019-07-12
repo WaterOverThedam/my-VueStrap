@@ -14,7 +14,7 @@
                             <Tag color="error"   v-if="item.label!='月销售冠军'&&item.standard-item.value>0">Warning</Tag>
                             <Tag color="success" v-if="item.label!='月销售冠军'&&item.standard-item.value<0">Success</Tag>
                             &nbsp;&nbsp;{{item.label}}
-                            <code>{{item.label=='月销售冠军'?item.value:item.value+'%'}}</code>
+                            <code>{{item.label=='月销售冠军'?valTrim(item.value):valTrim(item.value)+'%'}}</code>
                             <b v-if="item.label=='月销售冠军'">￥</b> 
                             <b v-if="item.label!='月销售冠军'&&item.standard-item.value>0">低于标准</b> 
                             <b v-if="item.label!='月销售冠军'&&item.standard-item.value<0">达到标准</b> 
@@ -115,6 +115,10 @@ export default {
             }  
       },
       methods: {
+        valTrim(val){
+           if(val==-1) return 0;
+           return val;
+        },
         toJson:function(str){
             return JSON.parse(str);
         },
@@ -129,7 +133,7 @@ export default {
             var self=this
             //281584(月总)  292939 246152(陈婕) 301931(pd)
             var sql=sql_quanxian
-            sql=sql.replace('iduser',246152);
+            //sql=sql.replace('iduser',292939);
             var param=GetRequest() 
             if(param&&param.iduser){
                sql = sql.replace(/iduser/ig,param.iduser);
