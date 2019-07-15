@@ -216,6 +216,12 @@ export default {
         　　　   },
         　　　   deep: true
             },
+            "select.dtReport":{
+                handler(newValue, oldValue) {
+                    newValue&&this.getQuery();
+        　　　   },
+        　　　   deep: true
+            },
             "select.phonePlans":{
                 handler(newValue, oldValue) {
                     this.phoneFilter();
@@ -268,7 +274,7 @@ export default {
         },
         param:function(sql){
            //281584(月总)  292939 246152(陈婕) 301931(pd)
-           //sql = sql.replace(/iduser/ig,279833);
+           //sql = sql.replace(/iduser/ig,281584);
            var param=GetRequest() 
            if(param&&param.iduser){
                sql = sql.replace(/iduser/ig,param.iduser);
