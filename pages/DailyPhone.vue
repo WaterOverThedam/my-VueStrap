@@ -274,7 +274,7 @@ export default {
         },
         param:function(sql){
            //281584(月总)  292939 246152(陈婕) 301931(pd)
-           //sql = sql.replace(/iduser/ig,281584);
+          //sql = sql.replace(/iduser/ig,281584);
            var param=GetRequest() 
            if(param&&param.iduser){
                sql = sql.replace(/iduser/ig,param.iduser);
@@ -372,7 +372,7 @@ export default {
             return true;
         },
         getQuery:function(){
-            if(!this.valid()) return;
+            if(!this.valid()||this.select.start) return;//防止重复提交
             this.select.datasql=[];
             this.select.phonePlans=[];
             this.getPhonePlans();
