@@ -274,7 +274,7 @@ export default {
         },
         param:function(sql){
            //281584(月总)  292939 246152(陈婕) 301931(pd)
-          //sql = sql.replace(/iduser/ig,281584);
+           //sql = sql.replace(/iduser/ig,301931);
            var param=GetRequest() 
            if(param&&param.iduser){
                sql = sql.replace(/iduser/ig,param.iduser);
