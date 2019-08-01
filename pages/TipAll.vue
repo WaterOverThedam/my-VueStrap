@@ -32,7 +32,7 @@
                 <!-- <button type="button" class="btn btn-danger" @click="indx.warn=false;">忽略</button> -->
             </div>
         </modal>
-        <modal :show.sync="rank.warn" effect="fade" width="70%">
+        <modal :show.sync="rank.warn" effect="fade" width="75%">
             <div slot="title" class="modal-title">
                 <span class="glyphicon glyphicon-info-sign text-danger"></span>
                 <b  class="text-danger" v-text="rank.title"></b> 
