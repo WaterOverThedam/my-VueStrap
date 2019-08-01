@@ -32,6 +32,78 @@
                 <!-- <button type="button" class="btn btn-danger" @click="indx.warn=false;">忽略</button> -->
             </div>
         </modal>
+        <modal :show.sync="rank.warn" effect="fade" width="70%">
+            <div slot="title" class="modal-title">
+                <span class="glyphicon glyphicon-info-sign text-danger"></span>
+                <b  class="text-danger" v-text="rank.title"></b> 
+            </div>
+            <div slot="modal-body" class="modal-body">
+                <div class="ui segment">
+                        <div class="ui grid">
+                            <div class="two column row" style="margin-left:0.6%;">
+                                <div class="column">           
+                                    <tooltip placement="left" content="仅统计25节及以上课程合同">                     
+                                    <h3 class="ui header">按合同数</h3>
+                                    </tooltip>
+                                    <table class="ui celled table">
+                                        <thead>
+                                            <tr>
+                                                <th>城市</th>
+                                                <th>排名</th>
+                                                <th>中心</th>
+                                                <th>本月签约合同数</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="n of rank.data[0]">
+                                                <td>{{city(n.type)}}</td>
+                                                <td>{{n.xh}}</td>
+                                                <td>{{n.gymname}}</td>
+                                                <td class="right aligned">{{n.hts}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table></div>
+                                <div class="column">
+                                    <tooltip placement="left" content="仅统计25节及以上课程合同">  
+                                    <h3 class="ui header">按合同金额</h3>
+                                    </tooltip>
+                                    <table class="ui celled table">
+                                        <thead>
+                                            <tr>
+                                                <th>城市</th>
+                                                <th>排名</th>
+                                                <th>中心</th>
+                                                <th>本月签约合同金额</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="n of rank.data[1]">
+                                                <td>{{city(n.type)}}</td>
+                                                <td>{{n.xh}}</td>
+                                                <td>{{n.gymname}}</td>
+                                                <td class="right aligned">{{n.amt}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui segment">
+                            <h3 class="ui header">分组说明：</h3>
+                            <p v-html="'<b>A组：</b>'+(rank.groups['1线']&&rank.groups['1线'].slice(0,-1))"></p>
+                            <p v-html="'<b>B组：</b>'+(rank.groups['2线']&&rank.groups['2线'].slice(0,-1))"></p>
+                            <p v-html="'<b>C组：</b>'+(rank.groups['3线']&&rank.groups['3线'].slice(0,-1))"></p>
+                        </div>
+     
+                </div>
+            </div>
+            <div slot="modal-footer" >
+               <p class="text-center">
+                <button type="button" class="btn btn-danger btn-block" @click="rank.warn=false;">知道了</button>
+               </p> 
+            </div>
+        </modal>
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -71,6 +143,7 @@ export default {
             },
             indexes: [{warn:false,title:"",items:[]},{warn:false,title:"",items:[]},{warn:false,title:"",items:[]},{warn:false,title:"",items:[]},{warn:false,title:"",items:[]}],
             tipForAudit:[],
+            rank:{warn:false,title:"本月全国中心即时业绩排名",data:[],groups:{}},
             audit_tip_show:false
             
 		}
@@ -115,6 +188,37 @@ export default {
             }  
       },
       methods: {
+        city(type){
+            switch(type){
+                case 1:
+                    return 'A组';
+                case 2:
+                    return 'B组';
+                default:
+                    return 'C组';
+            }
+        },
+        getRank(){
+            var self=this
+            var sql=sql_getTMRank;
+            sql=this.convertor.ToUnicode(sql);
+            this.$axios.get(url_local,{
+                params:{sql1:sql}
+            })
+            .then(function(res){
+                res=res.data;
+                if(res.errcode==0){
+                  self.rank.groups=JSON.parse(res.groups);
+                  self.rank.data=[];
+                  self.rank.data.push(res.rank_hts);
+                  self.rank.data.push(res.rank_htamt);
+                  self.rank.warn=true;
+                  //console.error(self.rank.groups);
+                }  
+            },function(res){
+                console.error(res);
+            });
+        },
         valTrim(val){
            if(val==-1) return 0;
            return val;
@@ -261,6 +365,7 @@ export default {
       },
       created: function () {
            this.getAcl();
+           this.getRank();
       }
   } 
 
