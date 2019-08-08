@@ -78,7 +78,7 @@ export default{
 			if(this.select.gymNames[code]){
 				return this.select.gymNames[code];
 			}else{
-			return code;
+			    return code;
 			};
 		},
         obj2Arr(obj){

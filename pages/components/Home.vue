@@ -306,7 +306,11 @@ export default {
 		  dialogAdv:{
 			show:false,
 			title:"高级筛选",
-			conditions:[{label:"报名日期(选填)",type:'daterange',item:'dtenrol',value:[]},{label:"姓名(选填)",type:'string',item:"babyname",value:undefined},{label:"手机(选填)",type:'string',item:"phone",value:undefined}]
+			conditions:[{label:"报名日期(选填)",type:'daterange',item:'dtenrol',value:[]},
+			    {label:"签单日期(选填)",type:'daterange',item:'dtsign',value:[]},
+		    	{label:"姓名(选填)",type:'string',item:"babyname",value:undefined},
+			    {label:"手机(选填)",type:'string',item:"phone",value:undefined}
+			]
 		  },
 		  tchecked:{
 			  show:false,
@@ -342,7 +346,8 @@ export default {
 		theader_pre: function(){
 		    return [
 		       //{lable:['name','fn_show','fn_label_handle'],value:['default','fn_value_handle','key_override']}
-		       {label:['操作'],value:['',this.urlEdit,'row']},
+			   {label:['操作'],value:['',this.urlEdit,'row']},
+			   {label:['明细',this.select.acl.indexOf("系统管理员")!=-1],value:['',this.urlDetail,'row']},
 			   {label:['家长手机'],value:['',this.urlView,'row']},
 			   {label:['孩子姓名|l','',this.decorate],value:['','','babyname'],order:-1},
 			   {label:['孩子年龄',this.field_show,this.ageLabel],value:['','age','babyage']},
@@ -539,6 +544,10 @@ export default {
 		},
         urlEdit:function(row){
             var u= "<a class='btn btn-default btn-sm' href='https://bbk.800app.com/index.jsp?mfs=crm_zdytable_238592_27045&mid=@id&menu=1109&gym=@gym' target='_blank'>修改</a>";
+            return u.replace('@id',row.id)&&u.replace('@id',row.id).replace('@gym',this.convertor.ToUnicode(this.select.gymNames[row.sign_centerid]||row.gym))||'';
+		},
+        urlDetail:function(row){
+            var u= "<a class='btn btn-default btn-sm' href='https://bbk.800app.com/index.jsp?mlist=1&mfs1=crm_zdytable_238592_27045&mid=@id&menu=1109' target='_blank'>查看</a>";
             return u.replace('@id',row.id)&&u.replace('@id',row.id).replace('@gym',this.convertor.ToUnicode(this.select.gymNames[row.sign_centerid]||row.gym))||'';
 		},
         tip:function(val){
