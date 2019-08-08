@@ -120,7 +120,7 @@
 				files:[
 					{name:'中心价目表',form:'Excel表格',type:['xls','xlsx'],result:""},
 					{name:'中心排课表',form:'Excel表格',type:['xls','xlsx'],result:""},
-					{name:'开业申请表',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
+					{name:'开业申请表',form:'Excel表格',type:['xls','xlsx','jpg','jpeg','png','pdf'],result:""},
 					{name:'营业业执照',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
 					{name:'中心场地租凭协议',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
 					{name:'保险合同扫描件',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
