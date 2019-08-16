@@ -7,14 +7,14 @@
         <div class='ui three column stackable grid'>
     		  <div class="row">
                 <div class="column right aligned">
-                     <v-select :value.sync="select.idgym" :options="select.gyms" options-label="name" options-value="id" placeholder="请选择中心" search clear-button close-on-select>
+                     <v-select :disabled="select.start" :value.sync="select.idgym" :options="select.gyms" options-label="name" options-value="id" placeholder="请选择中心" search clear-button close-on-select>
                      </v-select>
                 </div>
                 <div class="column center aligned">
-    	             <datepicker :value.sync="select.dtReport" format="yyyy-MM-dd" placeholder="请选择日期"></datepicker>
+    	             <datepicker v-show="!select.start" :value.sync="select.dtReport" this.select.start format="yyyy-MM-dd" placeholder="请选择日期"></datepicker>
                 </div>
                 <div class="column left aligned">
-                    <a href="javascript:" class="btn btn-default" @click="getQuery()">查询</a>
+                    <a href="javascript:" :disabled="select.start" class="btn btn-default" @click="getQuery()">查询</a>
 					<input type="button" class="btn btn-default"  value="打印" onclick="PrintDoc()" />
                     <input id="Button1" type="button" class="btn btn-danger"  value="导出EXCEL" class="rbtn23" @click.client="HtmlExportToExcel('PanelExcel','DailyPhoneCall')" />
 					<a id="dlink" style="display: none;"></a>
@@ -372,9 +372,9 @@ export default {
             return true;
         },
         getQuery:function(){
-            if(!this.valid()||this.select.start) return;//防止重复提交
             this.select.datasql=[];
             this.select.phonePlans=[];
+            if(!this.valid()||this.select.start) return;//防止重复提交
             this.getPhonePlans();
             this.getBirthDayPlans();
         },
