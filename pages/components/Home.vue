@@ -10,7 +10,7 @@
 									<span class="input-group-addon">活动</span>          
 									<v-select v-if="false" :value.sync="select.group_cur" clearable :multiple="select.multi" placeholder="活动分类" :options="select.vgroup" options-label="name" options-value="name" @change="select.campaign_selected=[];" close-on-select>
 									</v-select>					
-									<i-select  :model.sync="select.campaign_selected" style="width:200px" placeholder="活动名称" multiple filterable>
+									<i-select  :model.sync="select.campaign_selected" style="width:200px" placeholder="活动名称" clearable multiple filterable>
 										<Option-group v-for="g of select.vgroup" :label="g.name" v-if="cFilterby(campaigns,g)">
 											<i-option v-for="item in cFilterby(campaigns,g)" :value="item.id">{{ item.name }}</i-option>
 										</Option-group>
@@ -279,7 +279,7 @@ export default {
 		  arr_status_cur:["未处理","已首次联系","预约体验","体验出勤","付费报名夏令营","扣课报名夏令营","成功报名正式课程","家长决定不报名"],
 		  all_status:true,
           summerType:'preEnrol',
-		  typeGroup:[{val:'preEnrol',label:'预报名信息'},{val:'coupon',label:'礼券名单'}],
+		  typeGroup:[{val:'preEnrol',label:'预报名信息'},{val:'coupon',label:'H5礼券名单'},{val:'coupon2',label:'小程序礼券名单'}],
 		  isrecd:false,
           search:"",
 		  pagenation:{
@@ -320,7 +320,8 @@ export default {
 		  history:false,
 		  first:false,
 		  timelimit:[],
-		  recent:['30']
+		  recent:['30'],
+		  url_coupon:""
 	}
   },
   computed:{
@@ -759,7 +760,7 @@ export default {
 			if(typeof self.select.gym_selected!='string'){
 				gym_selected=self.select.gym_selected[0];
 			}
-			self.$http.jsonp(url_coupon,{
+			self.$http.jsonp(this.url_coupon,{
                 page: self.pagenation.pageNow,
                 centerid: gym_selected,
 				campain: self.select.campaign_selected[0],
@@ -770,6 +771,7 @@ export default {
             }).then(function(res){
 				var tbl_coupon=sql_coupon;
 				res = res.data;
+
 			    if(res && res.total>0){
 					var sql_data="";
 					res.data.map(function(d){
@@ -835,6 +837,13 @@ export default {
 			switch(this.summerType){
 				case 'coupon':
 					this.sql_cur=sql_coupon;
+					this.url_coupon=url_coupon;
+					this.theader=this.theader_coupon;
+					this.getQuery= this.getCouponlist;
+					break;
+				case 'coupon2':
+					this.sql_cur=sql_coupon;
+					this.url_coupon=url_coupon2;
 					this.theader=this.theader_coupon;
 					this.getQuery= this.getCouponlist;
 					break;
