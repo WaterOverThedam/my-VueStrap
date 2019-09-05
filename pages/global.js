@@ -162,7 +162,7 @@ export default{
              if(/^(.*)(select\s*?)\/\*main\*\/(.*?)[;]?$/.test(str)){
                  var pager = "select * from p order by @order id desc"+(!option.sw?"":","+option.sw);
                  pager += " offset "+(option.pageNow-1)*option.pageSize+" rows fetch next "+option.pageSize+" rows only"
-                 str = RegExp.$1+header+"p1 as(@main),p as(select * from p1 @c) select (select 0 errcode,'ok'errmsg,total,amt,amt_n,isnull((@pager for json path),'[]')arr,'@sql'sql from (select count(1)total,sum(amt)amt,count(nullif(amt,0))amt_n from p)a for json path,without_array_wrapper)";
+                 str = RegExp.$1+header+"p1 as(@main),p as(select * from p1 @c) select (select 0 errcode,'ok'errmsg,total,amt,amt_n,isnull((@pager for json path),'[]')arr,'@sql'sql from (select count(1)total,sum(amt2)amt,count(nullif(amt2,0))amt_n from p)a for json path,without_array_wrapper)";
                  if(!option.sql_handle){
                      str=str.replace("@main",RegExp.$2+RegExp.$3);
                  }else{

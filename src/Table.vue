@@ -49,14 +49,14 @@
                                 <div class="floating ui teal label" v-text="select.data&&select.data.arr&&select.data.arr.length"></div>
                             </a>
                         </div>
-                        <div class="ui compact menu">
+                        <div class="ui compact menu" v-if="amtable">
                             <a class="item">
                                 <i class="icon users"></i> 报名合同总金额
-                                <div class="floating ui red label" v-text="select.data&&select.data.total"></div>
+                                <div class="floating ui red label" v-text="select.data&&select.data.amt"></div>
                             </a>
                             <a class="item">
                                 <i class="icon user"></i> 报名合同总数
-                                <div class="floating ui teal label" v-text="select.data&&select.data.arr&&select.data.arr.length"></div>
+                                <div class="floating ui teal label" v-text="select.data&&select.data.amt_n"></div>
                             </a>
                         </div>
                         <div v-show="pageTotal>0" class="ui right floated menu">
@@ -83,6 +83,10 @@ export default {
    props: {
        //loading进度
        loading: {
+           type: Boolean,
+           default: false
+       },
+       amtable:{
            type: Boolean,
            default: false
        },
@@ -271,6 +275,7 @@ export default {
         }
    },
    created:function(){
+       //console.error(this.amtable);
       // console.log(JSON.stringify(this.header))
    }
 }
