@@ -36,18 +36,18 @@
 					</div>
 					<div class="five wide column">
 						    <div class="ui mini action input">
-						        <button class="btn btn-primary" @click="goSave()">导入家庭</button> 
+						        <button class="btn btn-primary" @click="goSave()" v-show="isuper||!isadmin">导入家庭</button> 
 						    </div>
 							<div class="ui mini action input">    
 								<button class="btn btn-danger" @click="editContact"
-								v-show="select.acl.indexOf('中心运营总监')!=-1||isadmin">短信通知设置</button>           
+								v-show="select.acl.indexOf('中心运营总监')!=-1||isuper">短信通知设置</button>           
 							</div>
 							<div class="ui mini action input">
 						    	<a :href="url_export" target="_blank" class="btn btn-danger" v-show="isadmin">导出Excel</a> 
 							</div>
 							<div class="ui mini action input">
 								<button class="btn btn-danger" @click="getSignlist"
-								v-show="select.acl.indexOf('系统管理员')!=-1">Check</button>                
+								v-show="isuper">Check</button>                
 							</div>
 					</div>
 				</div>	
@@ -108,6 +108,12 @@
 							<div class="ui checkbox">
 								<input id="first" type="checkbox"  v-model="first">
 								<label for="first">是否仅显示首次参加活动记录</label>
+							</div>
+						</div>
+						<div class="field" v-for="s in arr_member">
+							<div class="ui checkbox">
+								<input :id="s" type="checkbox" :value="s" v-model="arr_member_cur">
+								<label :for="s">{{s}}</label>
 							</div>
 						</div>
 					</div>
@@ -207,6 +213,9 @@
 		margin-bottom: 6%;
 		
 	}
+	.ui.form .inline.fields .field{
+		padding:0!important;
+	}
 </style>
 
 
@@ -275,6 +284,8 @@ export default {
   data(){
     return{
 		  tbl_maxheight:"600px",	 
+		  arr_member:['新用户','历史非会员','活跃会员','历史会员','所有用户'],
+		  arr_member_cur:['新用户'],
 		  arr_status:["未处理","已首次联系","预约体验","体验出勤","付费报名夏令营","扣课报名夏令营","成功报名正式课程","家长决定不报名"],
 		  arr_status_cur:["未处理","已首次联系","预约体验","体验出勤","付费报名夏令营","扣课报名夏令营","成功报名正式课程","家长决定不报名"],
 		  all_status:true,
@@ -341,6 +352,9 @@ export default {
 			}
 			return false;
 		},
+		isuper(){
+            return this.select.acl.indexOf('系统管理员')!=-1;
+		},
 	    options:function(){
           return {pageSize:this.pagenation.pageSize,pageNow:this.pagenation.pageNow,order:this.pagenation.order,condition:this.condition} 
 		}, 
@@ -391,7 +405,8 @@ export default {
 			var c=[];
 			if(this.summerType=="preEnrol"){
 			  if(!this.adv) this.search.trim()&&c.push("phone+babyname like '%"+this.search.trim()+"%'");
-              this.isrecd&&c.push("isrecd ='是'");
+			  this.isrecd&&c.push("isrecd ='是'");
+			  this.arr_member_cur.indexOf('所有用户')==-1&&c.push(`member_status in ('${this.arr_member_cur.join(',')} ')`);
 			  c.push("status in ('"+this.arr_status_cur.join("','")+"')")
 			}else{
 				this.search.trim()&&c.push("phone+user_name like '%"+this.search.trim()+"%'");
@@ -451,7 +466,7 @@ export default {
 			if(this.first){
 				this.options.sql_handle="select * from(select row_number()over(partition by phone order by dtenrol)xh,a.* from (@main)a)a where xh=1";
 			}
-			var sql=this.fn_pager(this.sqlBase,this.options) 
+			var sql=this.fn_pager_amt(this.sqlBase,this.options) 
 			sql = this.convertor.ToUnicode(sql);
 			return sql; 
 		},

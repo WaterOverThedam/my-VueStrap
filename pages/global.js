@@ -152,7 +152,29 @@ export default{
                 throw new Error("sql没有main标识！")
             }
             return str;
-         }
+         },
+         fn_pager_amt:function(str,option){
+             if(!(typeof option==="object"&&option.pageNow&&option.pageSize)){throw new Error("函数fn_pager的option参数不正确"); }
+             var header="with ";
+             if(/with.+as/.test(str)){
+               header=","
+             } 
+             if(/^(.*)(select\s*?)\/\*main\*\/(.*?)[;]?$/.test(str)){
+                 var pager = "select * from p order by @order id desc"+(!option.sw?"":","+option.sw);
+                 pager += " offset "+(option.pageNow-1)*option.pageSize+" rows fetch next "+option.pageSize+" rows only"
+                 str = RegExp.$1+header+"p1 as(@main),p as(select * from p1 @c) select (select 0 errcode,'ok'errmsg,total,amt,amt_n,isnull((@pager for json path),'[]')arr,'@sql'sql from (select count(1)total,sum(amt)amt,count(nullif(amt,0))amt_n from p)a for json path,without_array_wrapper)";
+                 if(!option.sql_handle){
+                     str=str.replace("@main",RegExp.$2+RegExp.$3);
+                 }else{
+                     option.sql_handle=option.sql_handle.replace("@main",RegExp.$2+RegExp.$3);
+                     str=str.replace("@main",option.sql_handle);
+                 }    
+                 str = str.replace("@c",!option.condition?"":"where "+option.condition).replace("@pager",pager).replace("@order",option.order);
+             }else{
+                 throw new Error("sql没有main标识！")
+             }
+             return str;
+          }
     }    
     
 }

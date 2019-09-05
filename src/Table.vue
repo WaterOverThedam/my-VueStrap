@@ -49,6 +49,16 @@
                                 <div class="floating ui teal label" v-text="select.data&&select.data.arr&&select.data.arr.length"></div>
                             </a>
                         </div>
+                        <div class="ui compact menu">
+                            <a class="item">
+                                <i class="icon users"></i> 报名合同总金额
+                                <div class="floating ui red label" v-text="select.data&&select.data.total"></div>
+                            </a>
+                            <a class="item">
+                                <i class="icon user"></i> 报名合同总数
+                                <div class="floating ui teal label" v-text="select.data&&select.data.arr&&select.data.arr.length"></div>
+                            </a>
+                        </div>
                         <div v-show="pageTotal>0" class="ui right floated menu">
                             <a href="javascript:void(0)" class="item pager" v-text="'共 '+pageTotal+' 页'"></a>
                             <select class="ui fluid dropdown" id="span" @change="pagenation.pageNow=1" v-model="pagenation.pageSize">
