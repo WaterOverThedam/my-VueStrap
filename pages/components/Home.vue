@@ -257,7 +257,7 @@ qstr +="insert into crm_zdytable_238592_23893_238592(crm_name,org_id,cust_id,crm
 qstr +="update jt set crmzdy_81802271/*hz*/=(select crm_name+',' from crm_zdytable_238592_23893_238592_view hz where hz.crmzdy_80653840_id=jt.id for xml path('')),crmzdy_81843299/*hz+age*/=(select crm_name+' '+crmzdy_81497217+',' from crm_zdytable_238592_23893_238592_view hz where hz.crmzdy_80653840_id=jt.id for xml path('')),crmzdy_82021205/*hz+birth*/=(select crm_name+' '+ convert(varchar(10),crmzdy_80653845,120)+',' from crm_zdytable_238592_23893_238592_view hz where hz.crmzdy_80653840_id=jt.id for xml path('')) from crm_sj_238592_view jt join #tmp on jt.id=#tmp.idjt;";
 qstr +="update jt set crmzdy_81767199/*search*/=/*家长姓名*/isnull(crm_surname,'')+','+/*手机*/isnull(crmzdy_80620120,'')+/*hz*/isnull(crmzdy_80610668,''),crmzdy_81778300/*中心*/=(select crmzdy_81620171+',' from crm_zdytable_238592_25111_238592_view zx where zx.crmzdy_81611091_id=jt.id for xml path('')) from crm_sj_238592_view jt join #tmp on jt.id=#tmp.idjt;";
 //update idjt for campaign
-qstr +="update camp set crmzdy_87686127=case when isnull(crmzdy_87686127,'')='' then #tmp.member_status else crmzdy_87686127 end,crmzdy_82058177 =#tmp.idjt,crmzdy_82053557=case when #tmp.member_status<>'新用户' then #tmp.member_status when isnull(crmzdy_82053557,'未处理')='未处理' then '已首次联系' else crmzdy_82053557 end from crm_zdytable_238592_27045_238592_view camp join #tmp on #tmp.idcamp=camp.id;"
+qstr +="update camp set crmzdy_87686127=case when isnull(crmzdy_87686127,'')='' then #tmp.member_status when isnull(crmzdy_87686127,'')='新用户' then #tmp.member_status else crmzdy_87686127 end,crmzdy_82058177 =#tmp.idjt,crmzdy_82053557=case when #tmp.member_status<>'新用户' then #tmp.member_status when isnull(crmzdy_82053557,'未处理')='未处理' then '已首次联系' else crmzdy_82053557 end from crm_zdytable_238592_27045_238592_view camp join #tmp on #tmp.idcamp=camp.id;"
 //result info
 qstr +="select top 1 0 errcode,'ok' errmsg,'@sql' sql from crm_yh_238592_view for json auto,without_array_wrapper;"
 
@@ -406,8 +406,8 @@ export default {
 			if(this.summerType=="preEnrol"){
 			  if(!this.adv) this.search.trim()&&c.push("phone+babyname like '%"+this.search.trim()+"%'");
 			  this.isrecd&&c.push("isrecd ='是'");
-			  this.arr_member_cur.indexOf('所有用户')==-1&&c.push(`member_status in ('${this.arr_member_cur.join(',')} ')`);
-			  c.push("status in ('"+this.arr_status_cur.join("','")+"')")
+			  this.arr_member_cur.indexOf('所有用户')==-1&&c.push(`member_status in ('${this.arr_member_cur.join(',')}')`);
+			  !this.all_status&&c.push("status in ('"+this.arr_status_cur.join("','")+"')")
 			}else{
 				this.search.trim()&&c.push("phone+user_name like '%"+this.search.trim()+"%'");
 			}
