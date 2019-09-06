@@ -340,6 +340,7 @@ export default {
 			   {label:['报名课程情况|l',this.field_show("active,history")],value:[''],order:-1},
 			   {label:['合同到期日期',this.field_show("history")],value:['','dt'],order:-1},
 			   {label:['最近沟通记录|l'],value:['','','recent'],order:-1},
+			   {label:['是否报名2019飞跃挑战赛',this.field_show("active")],value:[''],order:-1,class:{"highlight":"true"}},
 			   {label:['最近浏览时间'],value:['',this.fmtDt("yyyy-MM-dd hh:mm:ss")],order:2}
 			]   
 		},

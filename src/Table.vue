@@ -281,6 +281,9 @@ export default {
 }
 </script>
 <style scoped>
+    .highlight{
+         font-weight:bold;
+    }
     .scroll{
         overflow-y: scroll;
     }

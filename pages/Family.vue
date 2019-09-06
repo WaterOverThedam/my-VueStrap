@@ -83,7 +83,10 @@ export default {
         },
         getAcl:function(){
             var self=this;
-            //sql_quanxian=sql_quanxian.replace(/iduser/g,279833);
+             var param=GetRequest() 
+             if(param&&param.iduser){
+                sql_quanxian = sql_quanxian.replace(/iduser/ig,param.iduser);
+             }
             this.$axios.get(url_jsonp,{
                 params:{sql1:sql_quanxian}
             })
@@ -97,7 +100,10 @@ export default {
         },
         getGym:function(func){
              var self=this;
-             //sql_getGym=sql_getGym.replace('iduser',279833);
+             var param=GetRequest() 
+             if(param&&param.iduser){
+                sql_getGym = sql_getGym.replace(/iduser/ig,param.iduser);
+             }
 			 sql_getGym = this.convertor.ToUnicode(sql_getGym);
              self.$axios.get(url_jsonp,{
                  params:{sql1: sql_getGym}
