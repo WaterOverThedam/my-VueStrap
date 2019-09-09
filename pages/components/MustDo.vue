@@ -449,7 +449,8 @@
     </script>
 	<style scoped>
         #box{
-            min-height:270px!important; /*至少这个宽度，但超过也可以自动扩大*/
+            padding-top:2%;
+            min-height:360px!important; /*至少这个宽度，但超过也可以自动扩大*/
         }
         a:link{
            text-decoration:underline;
