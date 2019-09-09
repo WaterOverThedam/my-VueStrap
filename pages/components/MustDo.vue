@@ -450,7 +450,7 @@
 	<style scoped>
         #box{
             padding-top:2%;
-            min-height:360px!important; /*至少这个宽度，但超过也可以自动扩大*/
+            min-height:365px!important; /*至少这个宽度，但超过也可以自动扩大*/
         }
         a:link{
            text-decoration:underline;
