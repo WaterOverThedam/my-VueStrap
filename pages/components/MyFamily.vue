@@ -9,7 +9,7 @@
 						</div>
 					</div>
 					<div class="column left aligned">
-						<bs-input label="With dropdown and button" :value.sync="search"  placeholder="手机号/家长/孩子"  showClear style="width:72%" type="text">
+						<bs-input label="With dropdown and button" :value.sync="search" placeholder="手机号/家长/孩子"  showClear style="width:72%" type="text">
 							<dropdown slot="after">
 								<button slot="before" type="button" class="btn btn-default" @click.prevent="init()"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
 								<li><a href="#dropdown"></a></li>
@@ -39,8 +39,14 @@
 								<label for="onlyNoItro" >仅显示未体验的</label>
 							</div>
 						</div>
+						<div class="field" v-if="isSaleMan">
+							<div class="ui checkbox">
+								<input id="onlyNoSign" type="checkbox" v-model="onlyNoSign">
+								<label for="onlyNoSign" >仅显示体验出勤后30天内未签单的</label>
+							</div>
+						</div>
 					</div>
-					<div class="inline fields" v-if="select.acl.indexOf('系统管理员')!=-1">
+					<div class="inline fields" >
 						<label>打印SQL</label>
 						<div class="field">
 							<div class="ui checkbox">
@@ -197,7 +203,8 @@ export default {
           alertError:{show:false,title:'错误提示',msg:''},
 		  alertInfo:{show:false,title:'操作提示',msg:''},
 		  alertSuccess:{show:false,title:'操作提示',msg:'导入成功'},
-          onlyNoItro:false,
+		  onlyNoItro:false,
+		  onlyNoSign:false,
 		  sql_cur:sql_recent,
 		  getQuery:this.getEnrol,
 		  theader:[],
@@ -223,7 +230,10 @@ export default {
   },
   computed:{
 		typeGroup:function(){
-			if(this.isadmin||(this.select.gym_selected&&this.select.gym_selected.split("|")[1]==1)){
+			if(this.isSaleMan){
+				this.familyType="potential";
+                return [{val:'potential',label:'我负责的潜在客户'}];
+			}else if(this.isadmin||(this.select.gym_selected&&this.select.gym_selected.split("|")[1]==1)){
 				return [
 					{val:'recent',label:'本中心今天查看过的家庭'},{val:'potential',label:'我负责的潜在客户'},
 					{val:'active',label:'我负责的活跃会员'},{val:'history',label:'我负责的历史会员'}	 
@@ -231,6 +241,9 @@ export default {
 			}else{
 				return  [{val:'recent',label:'本中心今天查看过的家庭'}];
 			}
+		},
+		isSaleMan:function(){
+           return this.select.acl.indexOf('销售培训师')!=-1;
 		},
 		isadmin:function(){
 			if(this.select.acl.indexOf('系统管理员')!=-1
@@ -286,15 +299,17 @@ export default {
 				}
 			}
 			//共用条件及最终join条件字串
-			if(this.onlyNoItro){
-                c.push("孩子<>''");
-			}
+			if(this.onlyNoItro&&!this.isSaleMan)c.push("孩子<>''");
+			if(this.onlyNoSign) c.push("孩子<>''");
+
 			c = Array.from(new Set(c));
 			c = c.join(" and ");
 			return c;
 		},
 		whereLs:function(){
-			if(this.isadmin){
+			if(this.isSaleMan){
+                return 'and zx.crmzdy_87692991=1';
+			}else if(this.isadmin){
                 return '';
 			}else{
 				return 'and zx.crmzdy_81636452_id=iduser';
@@ -318,8 +333,13 @@ export default {
 		},
 		WhereNoIntro:function(){
 			if(this.onlyNoItro){
-               return " and not exists(select 1 from crm_zdytable_238592_23576_238592_view ty where zx.id=ty.crmzdy_81620307_id and ty.crmzdy_80653847_id=hz.id and datediff(d,getdate(),ty.crmzdy_80650731)>0 and ty.crmzdy_80650306<>'请假') and /*无出勤体验*/ not exists(select 1 from crm_zdytable_238592_23576_238592_view ty where zx.id=ty.crmzdy_81620307_id and ty.crmzdy_80653847_id=hz.id and datediff(d,getdate(),ty.crmzdy_80650731)<=0 and ty.crmzdy_80650306='出勤')"
+			   if(this.isSaleMan){
+				  return " and 最近体验='' ";
+			   }
+               return " and not exists(select 1 from crm_zdytable_238592_23576_238592_view ty where zx.id=ty.crmzdy_81620307_id and ty.crmzdy_80653847_id=hz.id and datediff(d,getdate(),ty.crmzdy_80650731)>0 and ty.crmzdy_80650306<>'请假') and /*无出勤体验*/ not exists(select 1 from crm_zdytable_238592_23576_238592_view ty where zx.id=ty.crmzdy_81620307_id and ty.crmzdy_80653847_id=hz.id and datediff(d,getdate(),ty.crmzdy_80650731)<=0 and ty.crmzdy_80650306='出勤')";
 			}
+			//体验出勤30内未报名
+			if(this.onlyNoSign) return "and  exists(select 1 from crm_zdytable_238592_23576_238592_view ty where zx.id=ty.crmzdy_81620307_id and ty.crmzdy_80653847_id=hz.id and datediff(d,getdate(),ty.crmzdy_80650731)<-30 and ty.crmzdy_80650306='出勤')";
 			return '';
 		},
 	    options:function(){
@@ -335,7 +355,7 @@ export default {
 			   {label:['咨询日期',this.field_show("potential")],value:[''],order:-1},
 			   {label:['获得家长信息的渠道',this.field_show("potential")],value:[''],order:-1},
 			   {label:['客户质量评估|l',this.field_show("potential")],value:[''],order:-1},
-			   {label:['最近体验|l',this.field_show("potential")],value:[''],order:-1},
+			   {label:['最近体验|l',this.field_show("potential",'ty')],value:[''],order:-1},
 			   {label:['负责老师'],value:[''],order:-1},
 			   {label:['报名课程情况|l',this.field_show("active,history")],value:[''],order:-1},
 			   {label:['合同到期日期',this.field_show("history")],value:['','dt'],order:-1},
@@ -412,7 +432,7 @@ export default {
             var u= "<a class='btn btn-default btn-sm' href='https://bbk.800app.com/index.jsp?mfs=crm_zdytable_238592_27045&mid=@id&menu=1109&gym=@gym' target='_blank'>修改</a>";
             return u.replace('@id',row.id).replace('@gym',this.convertor.ToUnicode(this.select.gymNames[row.sign_centerid]));
         },
-	    field_show:function(types){
+	    field_show:function(types,t){
             return types.indexOf(this.familyType)!=-1;
 		},
 		val_match:function(op){
@@ -588,15 +608,27 @@ export default {
 		}
   },
   watch: {
+	onlyNoItro(){
+		if(this.onlyNoSign)this.onlyNoSign=false;
+		this.init();
+	},
+	onlyNoSign(){
+		if(this.onlyNoItro)this.onlyNoItro=false;
+	    this.init();  
+	},
     familyType (newval) {
 		this.theader=this.theader_comm;
 		this.Tp=[undefined];
+		let sql_potential_cur=sql_potential;
+		if(this.isSaleMan){
+			sql_potential_cur=sql_potential2;
+		}
 		switch(newval){
 			case 'recent':
 				this.sql_cur=sql_recent;
 				break;
 			case "potential":
-				this.sql_cur=sql_potential;
+				this.sql_cur=sql_potential_cur;
 				break;
 			case "active":
 				this.sql_cur=sql_active;
@@ -626,7 +658,7 @@ export default {
   },
   created(){
 	  this.select.cur_menu="family";
-	  this.familyType="recent";
+	  this.familyType="potential";
   }
 }
 </script>
