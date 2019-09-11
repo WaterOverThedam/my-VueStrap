@@ -46,7 +46,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="inline fields" >
+					<div class="inline fields" v-if="select.acl.indexOf('系统管理员')!=-1">
 						<label>打印SQL</label>
 						<div class="field">
 							<div class="ui checkbox">
@@ -265,6 +265,8 @@ export default {
 		},
 		condition:function(){
 			var self=this,c=[];
+			//console.error(this.onlyNoItro&&this.isSaleMan)
+			if(this.onlyNoItro&&this.isSaleMan)c.push("charindex('出勤',最近体验)<=0");
 			//普通条件或高级条件
 			if(this.adv){
 				let c_join=function(label,opr,val){
@@ -333,9 +335,6 @@ export default {
 		},
 		WhereNoIntro:function(){
 			if(this.onlyNoItro){
-			   if(this.isSaleMan){
-				  return " and 最近体验='' ";
-			   }
                return " and not exists(select 1 from crm_zdytable_238592_23576_238592_view ty where zx.id=ty.crmzdy_81620307_id and ty.crmzdy_80653847_id=hz.id and datediff(d,getdate(),ty.crmzdy_80650731)>0 and ty.crmzdy_80650306<>'请假') and /*无出勤体验*/ not exists(select 1 from crm_zdytable_238592_23576_238592_view ty where zx.id=ty.crmzdy_81620307_id and ty.crmzdy_80653847_id=hz.id and datediff(d,getdate(),ty.crmzdy_80650731)<=0 and ty.crmzdy_80650306='出勤')";
 			}
 			//体验出勤30内未报名
@@ -658,7 +657,7 @@ export default {
   },
   created(){
 	  this.select.cur_menu="family";
-	  this.familyType="potential";
+	  this.familyType="recent";
   }
 }
 </script>
