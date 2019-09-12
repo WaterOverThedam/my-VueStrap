@@ -343,19 +343,19 @@ export default {
       },
       where_dt:function(){
           var conditions=[];
-          if(this.dtStart) conditions.push("camp.create_time>='"+this.dtStart+" 00:00:00'")
+          if(this.dtStart) conditions.push("camp.create_time>='"+this.dtStart)
           if(this.dtEnd) conditions.push("camp.create_time<='"+this.dtEnd+" 23:59:59'")
           return conditions.join(" and ")||'1=1';
       },
       where_dtht:function(){
           var conditions=[];
-          if(this.dtStart) conditions.push("camp.crmzdy_87677139>='"+this.dtStart+" 00:00:00'")
+          if(this.dtStart) conditions.push("camp.crmzdy_87677139>='"+this.dtStart)
           if(this.dtEnd) conditions.push("camp.crmzdy_87677139<='"+this.dtEnd+" 23:59:59'")
           return conditions.join(" and ")||'1=1';
       },
       where_dtty:function(){
           var conditions=[];
-          if(this.dtStart) conditions.push("ty.dtty>='"+this.dtStart+" 00:00:00'")
+          if(this.dtStart) conditions.push("ty.dtty>='"+this.dtStart)
           if(this.dtEnd) conditions.push("ty.dtty<='"+this.dtEnd+" 23:59:59'")
           return conditions.join(" and ")||'1=1';
       },

@@ -36,7 +36,7 @@
 						<div class="field">
 							<div class="ui checkbox">
 								<input id="onlyNoItro" type="checkbox" v-model="onlyNoItro">
-								<label for="onlyNoItro" >仅显示未体验的</label>
+								<label for="onlyNoItro" >{{notroTip}}</label>
 							</div>
 						</div>
 						<div class="field" v-if="isSaleMan">
@@ -229,6 +229,10 @@ export default {
 	}
   },
   computed:{
+	    notroTip(){
+		   if(this.isSaleMan) return '仅显示例子录入后30-90天内未体验出勤或沟通跟进的';
+           return '仅显示未体验的';
+		},
 		typeGroup:function(){
 			if(this.isSaleMan){
 				this.familyType="potential";
