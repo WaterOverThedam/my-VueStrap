@@ -112,8 +112,10 @@
 						</div>
 						<div class="field" v-for="s in arr_member">
 							<div class="ui checkbox">
-								<input :id="s" type="checkbox" :value="s" v-model="arr_member_cur">
-								<label :for="s">{{s}}</label>
+								<tooltip effect="scale" placement="bottom" :content="s.tip">
+								   <input :id="s.name" type="checkbox" :value="s.name" v-model="arr_member_cur">
+								   <label :for="s.name">{{s.name}}</label>
+								</tooltip>
 							</div>
 						</div>
 					</div>
@@ -138,7 +140,7 @@
 				<div slot="modal-body" class="modal-body">
 					<template v-for="(index,c) of dialogAdv.conditions" >
 					  <form-group>
-						<mz-datepicker  :start-time.sync="c.value[0]" :end-time.sync="c.value[1]" range confirm ch :placeholder="c.label" clearable v-if="c.type=='daterange'" :on-Confirm="clearTime"></mz-datepicker>
+						<mz-datepicker :start-time.sync="c.value[0]" :end-time.sync="c.value[1]" range confirm ch :placeholder="c.label" clearable v-if="c.type=='daterange'" :on-Confirm="clearTime"></mz-datepicker>
 						<bs-input maxlength=11 track-by="$index" style="width:87%" :placeholder="c.label" :value.sync="c.value" v-else></bs-input>
 					  </form-group>
 					</template>	
@@ -286,7 +288,7 @@ export default {
   data(){
     return{
 		  tbl_maxheight:"600px",	 
-		  arr_member:['新用户','历史非会员','活跃会员','历史会员','所有用户'],
+		  arr_member:[{name:'新用户',tip:"未咨询和体验过的用户"},{name:'历史非会员',tip:"已咨询但未报名用户"},{name:'活跃会员',tip:"在上课的会员"},{name:'历史会员',tip:"已上完课的会员"},{name:'所有用户',tip:'所有用户'}],
 		  arr_member_cur:['新用户','历史非会员','历史会员'],
 		  arr_status:["未处理","已首次联系","预约体验","体验出勤","付费报名夏令营","扣课报名夏令营","成功报名正式课程","家长决定不报名"],
 		  arr_status_cur:["未处理","已首次联系","预约体验","体验出勤","付费报名夏令营","扣课报名夏令营","成功报名正式课程","家长决定不报名"],

@@ -42,11 +42,11 @@
 						<div class="field" v-if="isSaleMan">
 							<div class="ui checkbox">
 								<input id="onlyNoSign" type="checkbox" v-model="onlyNoSign">
-								<label for="onlyNoSign" >仅显示体验出勤后30天内未签单的</label>
+								<label for="onlyNoSign" >仅显示8月12日后录入且30天内体验未签约的</label>
 							</div>
 						</div>
 					</div>
-					<div class="inline fields" v-if="select.acl.indexOf('系统管理员')!=-1">
+					<div class="inline fields" >
 						<label>打印SQL</label>
 						<div class="field">
 							<div class="ui checkbox">
@@ -230,7 +230,7 @@ export default {
   },
   computed:{
 	    notroTip(){
-		   if(this.isSaleMan) return '仅显示例子录入后30-90天内未体验出勤或沟通跟进的';
+		   if(this.isSaleMan) return '仅显示8月12日后录入且30天内未跟进或未体验的';
            return '仅显示未体验的';
 		},
 		typeGroup:function(){
@@ -364,6 +364,7 @@ export default {
 			   {label:['合同到期日期',this.field_show("history")],value:['','dt'],order:-1},
 			   {label:['最近沟通记录|l'],value:['','','recent'],order:-1},
 			   {label:['是否报名2019飞跃挑战赛|r',this.field_show("active")],value:[''],order:-1,class:{"highlight":"true"}},
+			   {label:['最新清单显示日期',this.isSaleMan],value:[''],order:2},
 			   {label:['最近浏览时间'],value:['',this.fmtDt("yyyy-MM-dd hh:mm:ss")],order:2}
 			]   
 		},
@@ -594,6 +595,7 @@ export default {
 			var h=this.theader.find(function(h){
                 return (h.label[1]==undefined||h.label[1])&&h.order&&h.order>-1;
 			})
+			//console.error(h)
 			if(h){
 				var order=(h.value[2]||this.labelify(h.label))+" "+(h.order==1?"asc":"desc")+",";
 			}
