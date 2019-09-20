@@ -251,7 +251,7 @@
         <Rpt-camp-trans id='PanelExcel' v-if="report_cur=='camptrans'" :subtitle="subtitle" :stat="stats"></Rpt-camp-trans>
         <Rpt-member id='PanelExcel' v-if="report_cur=='memberstat'" :stat="stat"></Rpt-member>
         <Rpt-unhandle id='PanelExcel' v-if="report_cur=='unhandle_stat'" :handle_time_ave="handle_time_ave" :handle_rank_down="handle_rank_down" :handle_rank="handle_rank"></Rpt-unhandle>
-         
+        <Rpt-enroll-rank id='PanelExcel' v-if="report_cur=='enrollstat'" :stat="stat"></Rpt-enroll-rank>
     </div>
 </template>
 
@@ -261,6 +261,7 @@ import alert from '@/src/Alert.vue'
 import RptMember from './components/RptMember.vue'
 import RptUnhandle from './components/RptUnhandle.vue'
 import RptCampTrans from './components/RptCampTrans.vue'
+import RptEnrollRank from './components/RptEnrollRank.vue'
 import datepicker from '@/src/Datepicker.vue'
 import  { iSelect, iOption, OptionGroup } from 'src/select/index.js';
 export default {
@@ -276,6 +277,7 @@ export default {
     RptMember,
     RptUnhandle,
     RptCampTrans,
+    RptEnrollRank,
     datepicker,
     iSelect,
 	iOption, 
@@ -290,12 +292,14 @@ export default {
         groups2:["按中心","按是否来自朋友推荐"],
         groups_selected:["m_code","center","is_recnd"],
         group_selected:"按中心",
-        reports:[{id:"fansData",label:"新增粉丝量汇总表"},
+        reports:[
+                 {id:"fansData",label:"新增粉丝量汇总表"},
                  {id:"sumData",label:"预报名和报名汇总表"},
                  {id:"kxjData",label:"开学季活动报名情况汇总"},
-                 {id:"memberstat",label:"系统会员与非会员统计"},
+                 {id:"memberstat",label:"系统会员与中心统计"},
                  {id:"unhandle_stat",label:"总部市场例子跟进情况统计"},
-                 {id:"camptrans",label:"总部活动例子转化情况统计"}
+                 {id:"camptrans",label:"总部活动例子转化情况统计"},
+                 {id:"enrollstat",label:"活动报名统计及中心排名"}
                  ],
         report_cur:null,
         sumData:[],
@@ -532,6 +536,8 @@ export default {
             this.getHandleStat(); 
         }else if(this.report_cur=="camptrans"){
             this.getTransStat(); 
+        }else if(this.report_cur=="enrollstat"){
+            this.getCampaignStat(); 
         }
       },
       getMemberStat:function(){
@@ -576,6 +582,41 @@ export default {
                 var res_data = res.data.info[0].rec[0];
                 self.stat=res_data;
                 self.select.start=false;
+            },function(res){
+                self.select.start=false;
+                console.log(res.status);
+            })
+      },
+      getCampaignStat:function(){
+            let self=this;
+            let sql=campaign_stat;  
+            var wheredt=[];
+            if(this.dtStart){
+                wheredt.push("camp.create_time>='"+this.dtStart+"'");
+            }
+            if(this.dtEnd){
+                wheredt.push("camp.create_time<='"+this.dtEnd+" 23:59:59'");
+            }
+            if(wheredt.length==0){
+                sql=sql.replace(/@whereend/g,'1=1')
+            }else{
+                sql=sql.replace(/@whereend/g,wheredt.join(' and '))
+            }
+
+            sql=sql.replace(/@where_campaign/ig,this.where_campaign);
+            sql = this.convertor.ToUnicode(sql);
+            self.select.start=true;
+            self.$http.jsonp(url_local,{
+                sql1: sql ,
+                onlysql:(self.onlysql.checked?1:0)
+            },{
+                jsonp:'callback'
+            }).then(function(res){
+              if(res.data&&res.data.errcode==0){
+                  self.onlysql.value=[res.data.sql];
+                  self.stat=res.data;
+              };
+              self.select.start=false;
             },function(res){
                 self.select.start=false;
                 console.log(res.status);
