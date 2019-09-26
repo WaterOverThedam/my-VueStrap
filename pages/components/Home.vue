@@ -38,6 +38,9 @@
 						    <div class="ui mini action input">
 						        <button class="btn btn-primary" @click="goSave()" v-show="isuper||!isadmin">导入家庭</button> 
 						    </div>
+						    <div v-if="select.campaign_selected=='地推派发'" class="ui mini action input">
+						        <button class="btn btn-primary" @click="goEdit()" >编辑</button> 
+						    </div>
 							<div class="ui mini action input">    
 								<button class="btn btn-danger" @click="editContact"
 								v-show="select.acl.indexOf('中心运营总监')!=-1||isuper">短信通知设置</button>           
@@ -165,6 +168,21 @@
 					<button type="button" class="btn btn-default" @click="contactModal.show = false">取消</button>
 				</div>
 			</modal>
+			<modal :show.sync="channelModal.show" effect="fade" :width="380">
+				<div slot="modal-header" class="modal-header">
+					<h4 class="modal-title">
+					<b>{{channelModal.title}}</b> 
+					</h4>
+				</div>
+				<div slot="modal-body" class="modal-body">
+					<v-select :value.sync="channelModal.value" clearable :placeholder="channelModal.placeholder" :options="channels" options-label="name" options-value="name" close-on-select>
+					</v-select>	
+				</div>
+				<div slot="modal-footer" class="modal-footer">
+					<button type="button" class="btn btn-success" @click="edit()">保存</button>
+					<button type="button" class="btn btn-default" @click="channelModal.show = false">取消</button>
+				</div>
+			</modal>
 			<modal :show.sync="checkModal.show" effect="fade" :width="400">
 				<div slot="modal-header" class="modal-header">
 					<h4 class="modal-title">
@@ -236,9 +254,9 @@ import  { iSelect, iOption, OptionGroup } from 'src/select/index.js';
  
 
 //channel
-var qstr = "select * into #c from(select crmzdy_87673590 能力,crmzdy_87673587 性格,crmzdy_87673584 距离,crmzdy_87673581 早教,camp.crmzdy_87687498 deposit,camp.id idcamp,isnull(nullif(camp.crmzdy_87673593,''),'无') quality,camp.crmzdy_82053647 gym,camp.crm_name phone,isnull(nullif(crmzdy_82053557,''),'未处理') status,isnull(dateadd(s,crmzdy_82053430+8*3600,'1970-01-01 00:00:00'),convert(varchar(20),create_time,120))dtenrol,crmzdy_82051555 centerid,replace(crmzdy_82053258,'官网预约体验','官网')campaign,crmzdy_82051555 sign_centerid,crmzdy_82051554 babyage,isnull(crmzdy_82051553,'') babyname,case when left(crmzdy_82051554,1)<>'0' and (charindex('-',crmzdy_82051554)>0 or charindex('/',crmzdy_82051554)>0) then crmzdy_82051554 when ISNUMERIC(crmzdy_82051554)=1 and len(crmzdy_82051554)<3 and crmzdy_82051554>'0' and crmzdy_82051554<'40' then dateadd(year,0-cast(crmzdy_82051554 as float),getdate()) else '' end birth,crmzdy_82053558 remark from crm_zdytable_238592_27045_238592_view camp where id in(@ids) and isnull(crmzdy_82058177,'')='')c ;"
-qstr +="insert into crm_zdytable_238592_25112_238592(org_id,cust_id,crm_syrID,create_time,crmzdy_81756602_id,crm_name,crmzdy_81755633,crmzdy_81755550,crmzdy_81755551)select distinct 238592,279833,279833,getdate(),59 type,'总部活动-'+#c.campaign,#c.campaign,1,1  from #c left join crm_zdytable_238592_25112_238592_view channel on #c.campaign=channel.crmzdy_81755633 where channel.crm_name is null;"
-qstr += "select #c.*,isnull((select top 1 id from crm_zdytable_238592_25112_238592_view channel where #c.campaign=channel.crmzdy_81755633 and crmzdy_81756602_id=59),0)idchannel into #cc from #c;"
+var qstr = "select * into #c from(select crmzdy_87673590 能力,crmzdy_87673587 性格,crmzdy_87673584 距离,crmzdy_87673581 早教,camp.crmzdy_87687498 deposit,camp.id idcamp,isnull(nullif(camp.crmzdy_87673593,''),'无') quality,camp.crmzdy_82053647 gym,camp.crm_name phone,isnull(nullif(crmzdy_82053557,''),'未处理') status,isnull(dateadd(s,crmzdy_82053430+8*3600,'1970-01-01 00:00:00'),convert(varchar(20),create_time,120))dtenrol,crmzdy_82051555 centerid,crmzdy_85965390 source,case when crmzdy_82053258='官网预约体验' then case when crmzdy_85965390='官方微信' then '总部微信号' else '官网' end else crmzdy_82053258 end campaign,crmzdy_82051555 sign_centerid,crmzdy_82051554 babyage,isnull(crmzdy_82051553,'') babyname,case when left(crmzdy_82051554,1)<>'0' and (charindex('-',crmzdy_82051554)>0 or charindex('/',crmzdy_82051554)>0) then crmzdy_82051554 when ISNUMERIC(crmzdy_82051554)=1 and len(crmzdy_82051554)<3 and crmzdy_82051554>'0' and crmzdy_82051554<'40' then dateadd(year,0-cast(crmzdy_82051554 as float),getdate()) else '' end birth,crmzdy_82053558 remark from crm_zdytable_238592_27045_238592_view camp where id in(@ids) and isnull(crmzdy_82058177,'')='')c ;"
+qstr +="insert into crm_zdytable_238592_25112_238592(org_id,cust_id,crm_syrID,create_time,crmzdy_81756602_id,crm_name,crmzdy_81755633,crmzdy_81755550,crmzdy_81755551)select distinct 238592,279833,279833,getdate(),59 type,'总部活动-'+#c.campaign,#c.campaign,1,1  from #c left join crm_zdytable_238592_25112_238592_view channel on #c.campaign=channel.crmzdy_81755633 where #c.campaign not in('地推派发','官网','总部微信号') and channel.crm_name is null;"
+qstr += "select #c.*,coalesce((select top 1 id from crm_zdytable_238592_25112_238592_view channel where #c.source=channel.crm_name order by case when crmzdy_81756602_id=59 then 0 else 1 end),(select top 1 id from crm_zdytable_238592_25112_238592_view channel where #c.campaign=channel.crmzdy_81755633 order by case when crmzdy_81756602_id=59 then 0 else 1 end),0)idchannel into #cc from #c;"
 //jt
 qstr += "DECLARE @gt table(cust_id bigint,crm_syrID bigint,idzx bigint,idjt bigint,memo nvarchar(4000),memo2 nvarchar(4000),gymcode varchar(20),idcampaign varchar(100));"
 qstr += "insert into crm_sj_238592(crm_name,org_id,cust_id,crm_syrID,crmzdy_81535047_id,crmzdy_81535045_id/*ls*/,create_time,crm_surname,crmzdy_81988104/*hz*/,crmzdy_81988100/*birth*/,crmzdy_80620120/*phone*/,crmzdy_80620075/*gymName*/,crmzdy_80620075_id/*idgym*/,crmzdy_82021212/*code*/,crmzdy_81486365/*prov*/,crmzdy_81486367/*city*/,crmzdy_80652377/*relation*/,crmzdy_81497202/*quality*/,crmzdy_80620126/*memo*/,crmzdy_81620165/*zxdt*/,crmzdy_81755583_id,crmzdy_81535090_id)"
@@ -306,6 +324,7 @@ export default {
           alertError:{show:false,title:'错误提示',msg:''},
     	  alertInfo:{show:false,title:'操作提示',msg:'导入成功'},
 		  contactModal:{show:false,title:'手机联系人',phones:['',''],valid:true,phone_reg:/^1[3|4|5|6|7|8|9][0-9]\d{8}$/},
+		  channelModal:{show:false,title:"来源渠道",value:null,placeholder:"请选择渠道"},
 		  checkModal:{show:false,title:'操作提示',content:'请先查询并选择下面要导入的名单（打勾）,再点击导入按钮'},
 		  warnModal:{show:false,title:'手机联系人设置提醒',content:'中心尚未《设置短信通知提醒》的手机联系人！请尽快进行设置！以免影响市场例子的及时跟进！'},
           check: {},
@@ -332,6 +351,7 @@ export default {
 			  ids:[],
 			  checkall:false
 		  },
+		  channels:[],
 		  history:false,
 		  first:false,
 		  timelimit:[],
@@ -500,12 +520,46 @@ export default {
 			this.init();
 	    },
 	    goSave:function(type){
+		   this.checkModal.content='请先查询并选择下面要导入的名单（打勾）,再点击导入按钮';
            if(type==1){
 			  this.checkModal.show=false; 
               this.tchecked.show=true;
 		   }else{
 			  if(this.tchecked.ids&&this.tchecked.ids.length>0){
 			     this.save();
+			  }else{
+				 this.checkModal.show=true; 
+			  }
+		   }
+		},
+		getChannel(){
+				let self=this;
+				let sql=this.convertor.ToUnicode(sql_channel)
+				this.$axios({
+					method:'post',
+					url: url_local,
+					data: qs.stringify({sql1:sql})
+				}).then(function(res){ 
+					if(res.status==200&&res.data.errcode==0){
+						self.channels=res.data.data;
+						//console.error(self.channels);
+						self.select.start=false;
+					}
+				},function(res){
+					self.select.start=false;
+					self.tchecked.ids=[];
+					self.tchecked.checkall=false;
+				});
+		},
+	    goEdit:function(type){
+		   this.checkModal.content='请先选择需要编辑的记录,再点击编辑按钮';
+		   this.getChannel();
+           if(type==1){
+			    this.checkModal.show=false; 
+			    this.tchecked.show=true;
+		   }else{
+			  if(this.tchecked.ids&&this.tchecked.ids.length>0){
+			     this.channelModal.show=true;
 			  }else{
 				 this.checkModal.show=true; 
 			  }
@@ -519,10 +573,41 @@ export default {
 		   var res=false;
 		   if(field=='channel'){
 				if(this.select.campaign_selected=="官网预约体验")res=true;
+				if(this.select.campaign_selected=="地推派发")res=true;
 				if(this.select.campaign_selected.indexOf("倒立")!=-1)res=true;
 				if(this.select.campaign_selected=="")res=true;
 		   }
 		   return res;
+		},
+		edit:function(){
+		    var sql=sql_channel_update;
+			sql=sql.replace(/@ids/g,this.tchecked.ids.join(","));
+            sql=sql.replace(/@channel/ig,this.channelModal.value)
+			sql=this.convertor.ToUnicode(sql)
+			var self=this;
+            self.select.start=true;
+			self.$axios({
+				method:'post',
+				url: url_local,
+				data: qs.stringify({sql1:sql})
+			}).then(function(res){ 
+				if(res.status==200&&res.data.errcode==0){
+					self.alertInfo.show=true;
+					self.init();
+					self.channelModal.show=false;
+				}else{
+					self.alertError={title:"错误提示",msg:"保存失败："+res.data.errmsg,show:true}
+				}
+				self.select.sql=res.data.sql;
+				self.select.start=false;
+				self.tchecked.ids=[];
+				self.tchecked.checkall=false;
+            },function(res){
+				self.select.start=false;
+				self.tchecked.ids=[];
+				self.tchecked.checkall=false;
+			});
+		  
 		},
 		save:function(){
 		    var sql=qstr;
