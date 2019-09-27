@@ -598,7 +598,8 @@ export default {
 				}else{
 					self.alertError={title:"错误提示",msg:"保存失败："+res.data.errmsg,show:true}
 				}
-				self.select.sql=res.data.sql;
+				//console.error(self.select);
+				//self.select.data.sql=res.data.sql;
 				self.select.start=false;
 				self.tchecked.ids=[];
 				self.tchecked.checkall=false;

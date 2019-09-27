@@ -71,6 +71,15 @@
                   </div>
                 </div>
               </div>
+              <div class="inline fields" v-if="active_capable">
+                 <label>高级筛选</label> 
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input id="active" type="checkbox" v-model="show_active">
+                    <label for="active">是否显示活跃会员排课统计</label>
+                  </div>
+                </div>
+              </div>
             </div>   
           </div>
         <div class="ui segment">
@@ -251,7 +260,7 @@
         <Rpt-camp-trans id='PanelExcel' v-if="report_cur=='camptrans'" :subtitle="subtitle" :stat="stats"></Rpt-camp-trans>
         <Rpt-member id='PanelExcel' v-if="report_cur=='memberstat'" :stat="stat"></Rpt-member>
         <Rpt-unhandle id='PanelExcel' v-if="report_cur=='unhandle_stat'" :handle_time_ave="handle_time_ave" :handle_rank_down="handle_rank_down" :handle_rank="handle_rank"></Rpt-unhandle>
-        <Rpt-enroll-rank id='PanelExcel' v-if="report_cur=='enrollstat'" :stat="stat"></Rpt-enroll-rank>
+        <Rpt-enroll-rank id='PanelExcel' v-if="report_cur=='enrollstat'" :show_active="show_active" :stat="stat"></Rpt-enroll-rank>
     </div>
 </template>
 
@@ -263,6 +272,7 @@ import RptUnhandle from './components/RptUnhandle.vue'
 import RptCampTrans from './components/RptCampTrans.vue'
 import RptEnrollRank from './components/RptEnrollRank.vue'
 import datepicker from '@/src/Datepicker.vue'
+import qs from 'qs';
 import  { iSelect, iOption, OptionGroup } from 'src/select/index.js';
 export default {
   props: {
@@ -287,6 +297,7 @@ export default {
      return {
         dtStart:"",
         dtEnd:"",
+        show_active:false,
         onlysql:{checked:false,value:[]},
         groups:[{id:"m_code",name:"按宣传资料"},{id:"center",name:"按来源中心"},{id:"is_recnd",name:"按是否来自朋友推荐"}],
         groups2:["按中心","按是否来自朋友推荐"],
@@ -320,6 +331,12 @@ export default {
      }
   },
   computed:{
+      active_capable(){
+          var res=this.select.campaign_selected&&this.select.campaign_selected[0]&&this.select.campaign_selected[0].indexOf('飞跃挑战赛')!=-1;
+          //console.log(res);
+          return res;
+
+      },
       reportName:function(){
           var self=this;
           var res=self.reports.find(function(r){
@@ -589,7 +606,7 @@ export default {
       },
       getCampaignStat:function(){
             let self=this;
-            let sql=campaign_stat;  
+            let sql=this.show_active?campaign_stat_jump:campaign_stat;  
             var wheredt=[];
             if(this.dtStart){
                 wheredt.push("camp.create_time>='"+this.dtStart+"'");
@@ -606,12 +623,11 @@ export default {
             sql=sql.replace(/@where_campaign/ig,this.where_campaign);
             sql = this.convertor.ToUnicode(sql);
             self.select.start=true;
-            self.$http.jsonp(url_local,{
-                sql1: sql ,
-                onlysql:(self.onlysql.checked?1:0)
-            },{
-                jsonp:'callback'
-            }).then(function(res){
+            self.$axios({
+				method:'post',
+				url: url_local,
+				data: qs.stringify({sql1:sql,onlysql:(self.onlysql.checked?1:0)})
+			}).then(function(res){
               if(res.data&&res.data.errcode==0){
                   self.onlysql.value=[res.data.sql];
                   self.stat=res.data;
@@ -883,7 +899,7 @@ export default {
                 })
                 this.select.campaign_selected=this.campaigns[0]&&this.campaigns[0].name;
             }else if(this.report_cur=="unhandle_stat"){
-                this.select.campaign_selected="所有";
+                this.select.campaign_selected=[];
             }else{
                 this.campaigns_rpt=this.campaigns;
                 this.select.campaign_selected=[];
