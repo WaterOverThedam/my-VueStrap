@@ -11,7 +11,7 @@
       <div class="modal-content">
         <slot name="modal-header">
           <div class="modal-header">
-            <button type="button" class="close" @click="close"><span>&times;</span></button>
+            <button type="button" class="close" v-show="closable" @click="close"><span>&times;</span></button>
             <h4 class="modal-title">
               <slot name="title">
                 {{title}}
@@ -72,6 +72,10 @@ export default {
       type: Boolean,
       coerce: coerce.boolean,
       default: false
+    },
+    closable:{
+      type: Boolean,
+      default: true
     },
     large: {
       type: Boolean,

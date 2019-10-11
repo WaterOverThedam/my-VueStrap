@@ -6,7 +6,7 @@
             </tooltip>
             <div class="content">
                 <div class="header">
-                    工作内容
+                    {{title}}
                 </div>
                 <ul class="list">
                     <li v-for="d of data[wk%7]">
@@ -79,6 +79,7 @@
             },
             data:function() {
 				return	{
+                    title:"工作内容",
 					weeknum: null,
 					isCheck: false,
 					showTop: false,
@@ -291,11 +292,14 @@
                                 if (self.role == "课程主管") {
                                     self.data = self.data_pd;
                                     sql_check = sql_check.replace('@type', 'pd');
-                                } else {
+                                } else if(self.role.indexOf("中心运营总监")!=-1) {
                                     self.data = self.data_gd;
 									sql_check = sql_check.replace('@type', 'gd');
 									self.getzk();
-								}
+								}else{
+                                    self.data=[];
+                                    self.title="每日安全检查";
+                                }
                             }
                         }, function (res) {
                             //alert(res.status);

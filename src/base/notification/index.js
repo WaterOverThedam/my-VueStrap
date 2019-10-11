@@ -1,6 +1,6 @@
 import Notification from './notification.vue';
 import Vue from 'vue';
-import { camelcaseToHyphen } from '../utils/assist';
+import { camelcaseToHyphen } from '../../../utils/assist';
 
 Notification.newInstance = properties => {
     const _props = properties || {};

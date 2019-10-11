@@ -1,7 +1,7 @@
 /**
  * https://github.com/freeze-component/vue-popper
  * */
-import Popper from 'src/base/popper.js';
+import Popper from 'popper.js';
 
 export default {
     props: {

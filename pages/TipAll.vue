@@ -1,6 +1,7 @@
 <template>
    <div>
         <component :select="select" :is="task"></component>
+
         <modal v-for="indx of indexes" :show.sync="indx.warn" effect="fade" >
             <div slot="title" class="modal-title">
                 <span class="glyphicon glyphicon-info-sign text-danger"></span>
@@ -29,8 +30,55 @@
                <p class="text-center">
                 <button type="button" class="btn btn-danger btn-block" @click="updateWarn(indx)">知道了，不再提示</button>
                </p> 
-                <!-- <button type="button" class="btn btn-danger" @click="indx.warn=false;">忽略</button> -->
+       
             </div>
+        </modal> 
+
+        <modal  :show.sync="jump_post.show" effect="fade" width="90%" :closable="jump_post.closable" >
+            <div slot="title" class="modal-title">
+                <span class="glyphicon glyphicon-info-sign text-danger"></span>
+                <b  class="text-danger" v-text="jump_post.title"></b> 
+            </div>
+            <div slot="modal-body" class="modal-body">
+                <div class="ui grid">
+                    <div class="nine wide column">
+                        <video width="120%" id="my-video" class="video-js vjs-big-play-centered vjs-fluid" controls preload="auto"  data-setup="{}"></video>    
+                    </div>
+                    <div class="seven wide column">
+                        <div class="ui segments">
+                            <div class="ui segment title">
+                                <p>初赛证书</p>
+                            </div>
+                            <div class="ui horizontal segments cert">
+                                <div v-for="url of jump_post.imgUrls.init" class="ui segment cert">
+                                    <Poptip trigger="click" placement="right" width="600">
+                                        <Button><div class="ui small image"><img :src="jump_post.urlPrefix+url.small"  alt="点击放大图片"></div></Button>
+                                        <div class="api" slot="content">
+                                            <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
+                                        </div>
+                                    </Poptip>
+                                </div>
+                            </div>
+                            <div class="ui segment title">
+                                <p>复赛证书</p>
+                            </div>
+                            <div class="ui horizontal segments cert">
+                                <div v-for="url of jump_post.imgUrls.again" class="ui segment cert">
+                                    <Poptip trigger="click" placement="right" width="600">
+                                        <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+url.small"></div></Button>
+                                        <div class="api" slot="content">
+                                            <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
+                                        </div>
+                                    </Poptip>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div slot="modal-footer" >
+            </div>
+ 
         </modal>
         <modal :show.sync="rank.warn" effect="fade" width="75%">
             <div slot="title" class="modal-title">
@@ -95,7 +143,6 @@
                             <p v-html="'<b>B组：</b>'+(rank.groups['2线']&&rank.groups['2线'].slice(0,-1))"></p>
                             <p v-html="'<b>C组：</b>'+(rank.groups['3线']&&rank.groups['3线'].slice(0,-1))"></p>
                         </div>
-     
                 </div>
             </div>
             <div slot="modal-footer" >
@@ -104,6 +151,9 @@
                </p> 
             </div>
         </modal>
+
+ 
+ 
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -114,8 +164,9 @@
                     </div>
                 </div>
             </div>
-        </alert>
+        </alert> 
    </div>
+   
 </template>
 
 <script>
@@ -123,6 +174,7 @@ import MustDo from './components/MustDo.vue';
 import Preparations from './components/Preparations.vue';
 import modal from '@/src/Modal.vue';
 import Tag from 'src/tag';
+import Poptip from 'src/poptip';
 import alert from '@/src/Alert.vue';
 import tooltip from '@/src/Tooltip.vue';
 export default {
@@ -144,7 +196,19 @@ export default {
             indexes: [{warn:false,title:"",items:[]},{warn:false,title:"",items:[]},{warn:false,title:"",items:[]},{warn:false,title:"",items:[]},{warn:false,title:"",items:[]}],
             tipForAudit:[],
             rank:{warn:false,title:"本月全国中心即时业绩排名",data:[],groups:{}},
-            audit_tip_show:false
+            audit_tip_show:false,
+            jump_post:{
+                show:false,title:"飞跃挑战赛",closable:false,
+                urlPrefix:"https://static.thelittlegym.com.cn",
+                videoUrl:"https://static.thelittlegym.com.cn/assert/video/oasis/campaign_jump.mp4",
+                imgUrls:{
+                     "init":[
+                       {"small":"/assert/img/oasis/small/%E5%88%9D%E8%B5%9B1.png","origin":"/assert/img/oasis/origin/%E5%88%9D%E8%B5%9B1.png"},
+                       {"small":"/assert/img/oasis/small/%E5%88%9D%E8%B5%9B2.png","origin":"/assert/img/oasis/origin/%E5%88%9D%E8%B5%9B2.png"}
+                     ],
+                     "again":[{"origin":"/assert/img/oasis/origin/%E5%A4%8D%E8%B5%9B1.png","small":"/assert/img/oasis/small/%E5%A4%8D%E8%B5%9B1.png"}]
+                }
+            }
             
 		}
 	  },
@@ -154,7 +218,8 @@ export default {
            modal,
            Tag,
            tooltip,
-           alert
+           alert,
+           Poptip
       },
 	  computed:{
             isadmin:function(){
@@ -361,12 +426,37 @@ export default {
             },function(res){
                 console.error(res);
             });
+        },
+        to_jump_post(params) {
+            var now = new Date();
+            var end = new Date("2019-11-01");
+            if(now<end){
+                var self=this;
+                var videoUrl = this.jump_post.videoUrl;
+                var myPlayer = videojs('my-video');
+                videojs("my-video", {}, function() {
+                    window.myPlayer = this;
+                    myPlayer.src(videoUrl);
+                    myPlayer.load(videoUrl);
+                    myPlayer.play();
+                    myPlayer.on('ended', function() {
+                        console.log('播放结束了!');
+                        self.jump_post.closable=true;
+                    });
+                });
+                this.jump_post.show=true;
+            }
         }
+ 
       },
-      created: function () {
-           this.getAcl();
-           this.getRank();
-      }
+      ready: function () {
+            this.getAcl();
+            this.getRank();
+            //this.jump_post.show=true;
+            this.to_jump_post();
+      },
+    
+
   } 
 
 </script>
@@ -376,6 +466,14 @@ export default {
     }
     [v-cloak]{
         display:none;
+    }
+    .cert{
+       padding: 1% 1%;
+	   margin:0;
+    }
+    .title{
+       padding: 1.1% 1.1%;
+       font-weight: bold;
     }
  
 </style>
