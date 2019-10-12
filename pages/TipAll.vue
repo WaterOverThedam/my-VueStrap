@@ -123,7 +123,7 @@
                             </div>
                             <div class="ui horizontal segments cert">
                                 <div v-for="url of jump_post.imgUrls.init" class="ui segment cert">
-                                    <Poptip trigger="click" placement="right" width="600">
+                                    <Poptip trigger="click"  placement="bottom-start" width="600">
                                         <Button><div class="ui small image"><img :src="jump_post.urlPrefix+url.small"  alt="点击放大图片"></div></Button>
                                         <div class="api" slot="content">
                                             <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
@@ -133,13 +133,13 @@
                             </div>
                             <div class="ui segment title">
                                 <div class="ui grid">
-                                    <div class="ten wide column">复赛证书</div>
-                                    <div class="six wide column">比赛须知</div>
+                                    <div class="eight wide column">复赛证书</div>
+                                    <div class="eight wide column">初赛课前&颁奖Announce</div>
                                 </div>
                             </div>
                             <div class="ui horizontal segments cert">
                                 <div v-for="url of jump_post.imgUrls.again" class="ui segment cert">
-                                    <Poptip trigger="click" placement="right" width="600">
+                                    <Poptip trigger="click" :placement="$index==0?'bottom-start':'left-start'" width="600">
                                         <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+url.small"></div></Button>
                                         <div class="api" slot="content">
                                             <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
@@ -461,15 +461,6 @@ export default {
             }
         }
  
-      },
-      watch:{
-        //     "rank.warn":{
-        //         handler(newValue, oldValue) {
-        //            newValue&& this.to_jump_post();
-        // 　　　   },
-        // 　　　   deep: true
-        //     },
-
       },
       ready: function () {
             this.getAcl();
