@@ -60,7 +60,10 @@
                                 </div>
                             </div>
                             <div class="ui segment title">
-                                <p>复赛证书</p>
+                                <div class="ui grid">
+                                    <div class="ten wide column">复赛证书</div>
+                                    <div class="six wide column">比赛须知</div>
+                                </div>
                             </div>
                             <div class="ui horizontal segments cert">
                                 <div v-for="url of jump_post.imgUrls.again" class="ui segment cert">
@@ -68,6 +71,17 @@
                                         <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+url.small"></div></Button>
                                         <div class="api" slot="content">
                                             <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
+                                        </div>
+                                    </Poptip>
+                                </div>
+                                <div class="ui segment cert">
+                                    <Poptip trigger="click" placement="right" width="850">
+                                        <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.small"></div></Button>
+                                        <div class="api" slot="content">
+                                            <div class="ui grid">
+                                                <div class="eight wide column"><div class="ui massive image"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.origin[0]"></div></div>
+                                                <div class="eight wide column"><div class="ui massive image"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.origin[1]"></div></div>
+                                            </div>
                                         </div>
                                     </Poptip>
                                 </div>
@@ -152,8 +166,6 @@
             </div>
         </modal>
 
- 
- 
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -206,7 +218,8 @@ export default {
                        {"small":"/assert/img/oasis/small/%E5%88%9D%E8%B5%9B1.png","origin":"/assert/img/oasis/origin/%E5%88%9D%E8%B5%9B1.png"},
                        {"small":"/assert/img/oasis/small/%E5%88%9D%E8%B5%9B2.png","origin":"/assert/img/oasis/origin/%E5%88%9D%E8%B5%9B2.png"}
                      ],
-                     "again":[{"origin":"/assert/img/oasis/origin/%E5%A4%8D%E8%B5%9B1.png","small":"/assert/img/oasis/small/%E5%A4%8D%E8%B5%9B1.png"}]
+                     "again":[{"origin":"/assert/img/oasis/origin/%E5%A4%8D%E8%B5%9B1.png","small":"/assert/img/oasis/small/%E5%A4%8D%E8%B5%9B1.png"}],
+                     "instructions":{"small":"/assert/img/oasis/small/announce.png","origin":["/assert/img/oasis/origin/announce1.jpg","/assert/img/oasis/origin/announce2.jpg"]}
                 }
             }
             
