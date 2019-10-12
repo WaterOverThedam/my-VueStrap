@@ -75,7 +75,7 @@
                                     </Poptip>
                                 </div>
                                 <div class="ui segment cert">
-                                    <Poptip trigger="click" placement="right" width="850">
+                                    <Poptip trigger="click" placement="right" width="960">
                                         <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.small"></div></Button>
                                         <div class="api" slot="content">
                                             <div class="ui grid">
@@ -488,5 +488,10 @@ export default {
        padding: 1.1% 1.1%;
        font-weight: bold;
     }
+  .jumbo img{
+    width: 1160px;
+    height: auto;
+    font-size: 1.71428571rem;
+}
  
 </style>
