@@ -34,66 +34,7 @@
             </div>
         </modal> 
 
-        <modal  :show.sync="jump_post.show" effect="fade" width="90%" :closable="jump_post.closable" >
-            <div slot="title" class="modal-title">
-                <span class="glyphicon glyphicon-info-sign text-danger"></span>
-                <b  class="text-danger" v-text="jump_post.title"></b> 
-            </div>
-            <div slot="modal-body" class="modal-body">
-                <div class="ui grid">
-                    <div class="nine wide column">
-                        <video width="120%" id="my-video" class="video-js vjs-big-play-centered vjs-fluid" controls preload="auto"  data-setup="{}"></video>    
-                    </div>
-                    <div class="seven wide column">
-                        <div class="ui segments">
-                            <div class="ui segment title">
-                                <p>初赛证书</p>
-                            </div>
-                            <div class="ui horizontal segments cert">
-                                <div v-for="url of jump_post.imgUrls.init" class="ui segment cert">
-                                    <Poptip trigger="click" placement="right" width="600">
-                                        <Button><div class="ui small image"><img :src="jump_post.urlPrefix+url.small"  alt="点击放大图片"></div></Button>
-                                        <div class="api" slot="content">
-                                            <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
-                                        </div>
-                                    </Poptip>
-                                </div>
-                            </div>
-                            <div class="ui segment title">
-                                <div class="ui grid">
-                                    <div class="ten wide column">复赛证书</div>
-                                    <div class="six wide column">比赛须知</div>
-                                </div>
-                            </div>
-                            <div class="ui horizontal segments cert">
-                                <div v-for="url of jump_post.imgUrls.again" class="ui segment cert">
-                                    <Poptip trigger="click" placement="right" width="600">
-                                        <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+url.small"></div></Button>
-                                        <div class="api" slot="content">
-                                            <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
-                                        </div>
-                                    </Poptip>
-                                </div>
-                                <div class="ui segment cert">
-                                    <Poptip trigger="click" placement="right" width="960">
-                                        <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.small"></div></Button>
-                                        <div class="api" slot="content">
-                                            <div class="ui grid">
-                                                <div class="eight wide column"><div class="ui massive image"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.origin[0]"></div></div>
-                                                <div class="eight wide column"><div class="ui massive image"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.origin[1]"></div></div>
-                                            </div>
-                                        </div>
-                                    </Poptip>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div slot="modal-footer" >
-            </div>
  
-        </modal>
         <modal :show.sync="rank.warn" effect="fade" width="75%">
             <div slot="title" class="modal-title">
                 <span class="glyphicon glyphicon-info-sign text-danger"></span>
@@ -165,7 +106,65 @@
                </p> 
             </div>
         </modal>
-
+       <modal  :show.sync="jump_post.show" effect="fade" width="90%" :closable="jump_post.closable" >
+            <div slot="title" class="modal-title">
+                <span class="glyphicon glyphicon-info-sign text-danger"></span>
+                <b  class="text-danger" v-text="jump_post.title"></b> 
+            </div>
+            <div slot="modal-body" class="modal-body">
+                <div class="ui grid">
+                    <div class="nine wide column">
+                        <video width="120%" id="my-video" class="video-js vjs-big-play-centered vjs-fluid" controls preload="auto"  data-setup="{}"></video>    
+                    </div>
+                    <div class="seven wide column">
+                        <div class="ui segments">
+                            <div class="ui segment title">
+                                <p>初赛证书</p>
+                            </div>
+                            <div class="ui horizontal segments cert">
+                                <div v-for="url of jump_post.imgUrls.init" class="ui segment cert">
+                                    <Poptip trigger="click" placement="right" width="600">
+                                        <Button><div class="ui small image"><img :src="jump_post.urlPrefix+url.small"  alt="点击放大图片"></div></Button>
+                                        <div class="api" slot="content">
+                                            <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
+                                        </div>
+                                    </Poptip>
+                                </div>
+                            </div>
+                            <div class="ui segment title">
+                                <div class="ui grid">
+                                    <div class="ten wide column">复赛证书</div>
+                                    <div class="six wide column">比赛须知</div>
+                                </div>
+                            </div>
+                            <div class="ui horizontal segments cert">
+                                <div v-for="url of jump_post.imgUrls.again" class="ui segment cert">
+                                    <Poptip trigger="click" placement="right" width="600">
+                                        <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+url.small"></div></Button>
+                                        <div class="api" slot="content">
+                                            <div class="ui massive image"><img :src="jump_post.urlPrefix+url.origin"></div>
+                                        </div>
+                                    </Poptip>
+                                </div>
+                                <div class="ui segment cert">
+                                    <Poptip trigger="click" placement="right" width="960">
+                                        <Button><div class="ui small image" alt="点击放大图片"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.small"></div></Button>
+                                        <div class="api" slot="content">
+                                            <div class="ui grid">
+                                                <div class="eight wide column"><div class="ui massive image"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.origin[0]"></div></div>
+                                                <div class="eight wide column"><div class="ui massive image"><img :src="jump_post.urlPrefix+jump_post.imgUrls.instructions.origin[1]"></div></div>
+                                            </div>
+                                        </div>
+                                    </Poptip>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div slot="modal-footer" >
+            </div>
+        </modal>
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -293,6 +292,7 @@ export default {
                   self.rank.warn=true;
                   //console.error(self.rank.groups);
                 }  
+                
             },function(res){
                 console.error(res);
             });
@@ -461,6 +461,15 @@ export default {
             }
         }
  
+      },
+      watch:{
+        //     "rank.warn":{
+        //         handler(newValue, oldValue) {
+        //            newValue&& this.to_jump_post();
+        // 　　　   },
+        // 　　　   deep: true
+        //     },
+
       },
       ready: function () {
             this.getAcl();
