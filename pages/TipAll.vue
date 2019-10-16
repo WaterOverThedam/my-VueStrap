@@ -465,8 +465,7 @@ export default {
       ready: function () {
             this.getAcl();
             this.getRank();
-            //this.jump_post.show=true;
-            //this.to_jump_post();
+            this.to_jump_post();
       },
     
 
