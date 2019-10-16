@@ -72,13 +72,14 @@
                 </div>
               </div>
               <div class="inline fields" v-if="active_capable">
-                 <label>高级筛选</label> 
-                <div class="field">
-                  <div class="ui checkbox">
-                    <input id="active" type="checkbox" v-model="show_active">
-                    <label for="active">是否显示活跃会员排课统计</label>
-                  </div>
+                 <label>子报表</label> 
+                <div class="field" v-for="index in indexes">
+                    <div class="ui radio checkbox">
+                        <input name="frequency" type="radio" :value="index" :id="index" v-model="index_cur">
+                        <label :for="index" v-text="index"></label>
+                    </div>
                 </div>
+
               </div>
             </div>   
           </div>
@@ -260,7 +261,7 @@
         <Rpt-camp-trans id='PanelExcel' v-if="report_cur=='camptrans'" :subtitle="subtitle" :stat="stats"></Rpt-camp-trans>
         <Rpt-member id='PanelExcel' v-if="report_cur=='memberstat'" :stat="stat"></Rpt-member>
         <Rpt-unhandle id='PanelExcel' v-if="report_cur=='unhandle_stat'" :handle_time_ave="handle_time_ave" :handle_rank_down="handle_rank_down" :handle_rank="handle_rank"></Rpt-unhandle>
-        <Rpt-enroll-rank id='PanelExcel' v-if="report_cur=='enrollstat'" :show_active="show_active" :stat="stat"></Rpt-enroll-rank>
+        <Rpt-enroll-rank id='PanelExcel' v-if="report_cur=='jump_enrollstat'" :index_cur="index_cur" :stat="stat"></Rpt-enroll-rank>
     </div>
 </template>
 
@@ -297,7 +298,8 @@ export default {
      return {
         dtStart:"",
         dtEnd:"",
-        show_active:false,
+        index_cur:'报名会员分类统计',
+        indexes:['报名会员分类统计','活跃会员排课统计','所有挑战赛实际报名出勤情况统计'],
         onlysql:{checked:false,value:[]},
         groups:[{id:"m_code",name:"按宣传资料"},{id:"center",name:"按来源中心"},{id:"is_recnd",name:"按是否来自朋友推荐"}],
         groups2:["按中心","按是否来自朋友推荐"],
@@ -310,7 +312,7 @@ export default {
                  {id:"memberstat",label:"系统会员与中心统计"},
                  {id:"unhandle_stat",label:"总部市场例子跟进情况统计"},
                  {id:"camptrans",label:"总部活动例子转化情况统计"},
-                 {id:"enrollstat",label:"活动报名统计及中心排名"}
+                 {id:"jump_enrollstat",label:"活动报名统计及中心排名"}
                  ],
         report_cur:null,
         sumData:[],
@@ -333,9 +335,9 @@ export default {
   computed:{
       active_capable(){
           var res=this.select.campaign_selected&&this.select.campaign_selected[0]&&this.select.campaign_selected[0].indexOf('飞跃挑战赛')!=-1;
-          //console.log(res);
+          res=res&&(this.report_cur=="jump_enrollstat");
+          //console.log(this.report_cur);
           return res;
-
       },
       reportName:function(){
           var self=this;
@@ -553,7 +555,7 @@ export default {
             this.getHandleStat(); 
         }else if(this.report_cur=="camptrans"){
             this.getTransStat(); 
-        }else if(this.report_cur=="enrollstat"){
+        }else if(this.report_cur=="jump_enrollstat"){
             this.getCampaignStat(); 
         }
       },
@@ -606,7 +608,7 @@ export default {
       },
       getCampaignStat:function(){
             let self=this;
-            let sql=this.show_active?campaign_stat_jump:campaign_stat;  
+            let sql=this.index_cur=='活跃会员排课统计'?campaign_stat_jump:(this.index_cur=='所有挑战赛实际报名出勤情况统计'?campaign_stat_jump_actual:campaign_stat);  
             var wheredt=[];
             if(this.dtStart){
                 wheredt.push("camp.create_time>='"+this.dtStart+"'");
@@ -631,6 +633,7 @@ export default {
               if(res.data&&res.data.errcode==0){
                   self.onlysql.value=[res.data.sql];
                   self.stat=res.data;
+      
               };
               self.select.start=false;
             },function(res){
@@ -646,6 +649,7 @@ export default {
             sql=sql.replace("@where_dtht",this.where_dtht);
             sql=sql.replace(/@where_gymcode/ig,this.where_gymcode);
             sql=sql.replace(/@where_campaign/ig,this.where_campaign);
+            sql=sql.replace(/@where_other/ig," isnull(crmzdy_87686127,'')<>'活跃会员' and crmzdy_82053258 not like '测试%' and crmzdy_82053258 not like '%test%' and isnull(crmzdy_82053258,'')<>''");
             sql = this.convertor.ToUnicode(sql);
             self.select.start=true;
             self.$http.jsonp(url_jsonp,{
@@ -875,6 +879,9 @@ export default {
        }
   },
   watch: {
+      index_cur:function(){
+          this.stat={};
+      },
       report_cur:function(v){
             var mydate=new Date();
             var timestamp = new Date().getTime();

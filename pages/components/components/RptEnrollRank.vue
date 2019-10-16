@@ -1,9 +1,9 @@
 <template>
     <div id="PanelExcel" class="ui segment total" style="margin-left:1%;">
             <div class="ui grid">
-                <div class="one column row" v-if="show_active">
+                <div class="one column row" v-if="index_cur=='活跃会员排课统计'">
                     <div class="column center aligned">
-                            <Tag color="primary">活跃会报名及排课</Tag>
+                            <Tag color="primary">{{index_cur}}</Tag>
                             <table class="ui celled table">
                                 <thead>
                                     <tr class="positive">
@@ -27,7 +27,7 @@
                                             </div>
                                         </th>
                                         <th class="is-leaf is-sortable" :class="{' ascending':orders.active_enroll==1,' descending':orders.active_enroll==2}">
-                                            <div class="cell">活跃会员报名人数<span class="caret-wrapper" >
+                                            <div class="cell">活跃会员报名人数[小程序]<span class="caret-wrapper" >
                                                 <i class="sort-caret ascending"  @click="paiXu('active_enroll',1)"></i>
                                                 <i class="sort-caret descending" @click="paiXu('active_enroll',2)"></i></span>
                                             </div>
@@ -41,8 +41,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="r of data_filter">
-                                        <td>{{$index+1}}</td>
+                                    <tr v-for="r of data_rank">
+                                        <td>{{$index}}</td>
                                         <td>{{r['gym']}}</td>
                                         <td>{{r['active']}}</td>                                        
                                         <td>{{r['all_enroll']}}</td>
@@ -53,7 +53,7 @@
                             </table>
                     </div>
                 </div>
-                <div class="two column row" v-if="!show_active" style="margin-left:0.2%;">
+                <div class="two column row" v-if="index_cur=='报名会员分类统计'" style="margin-left:0.2%;">
                     <div class="column center aligned">
                             <Tag color="error">报名会员分类统计</Tag>
                             <table class="ui celled table">
@@ -91,6 +91,65 @@
                             </table>
                     </div>
                 </div>
+                <div class="one column row" v-if="index_cur=='所有挑战赛实际报名出勤情况统计'" style="margin-left:0.2%;">
+                    <div class="column center aligned">
+                            <Tag color="error">{{index_cur}}</Tag>
+                            <table class="ui celled table">
+                                <thead>
+                                    <tr class="positive">
+                                        <th>序号</th>
+                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['中心']==1,' descending':orders['中心']==2}">
+                                            <div class="cell">中心<span class="caret-wrapper" >
+                                                <i class="sort-caret ascending"  @click="paiXu('中心',1)"></i>
+                                                <i class="sort-caret descending" @click="paiXu('中心',2)"></i></span>
+                                            </div>
+                                        </th>
+                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['报名家庭数']==1,' descending':orders['报名家庭数']==2}">
+                                            <div class="cell">报名家庭数<span class="caret-wrapper" >
+                                                <i class="sort-caret ascending"  @click="paiXu('报名家庭数',1)"></i>
+                                                <i class="sort-caret descending" @click="paiXu('报名家庭数',2)"></i></span>
+                                            </div>
+                                        </th>
+                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['排课数']==1,' descending':orders['排课数']==2}">
+                                            <div class="cell">排课数<span class="caret-wrapper" >
+                                                <i class="sort-caret ascending"  @click="paiXu('排课数',1)"></i>
+                                                <i class="sort-caret descending" @click="paiXu('排课数',2)"></i></span>
+                                            </div>
+                                        </th>
+                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['排课孩子数']==1,' descending':orders['排课孩子数']==2}">
+                                            <div class="cell">排课孩子数<span class="caret-wrapper" >
+                                                <i class="sort-caret ascending"  @click="paiXu('排课孩子数',1)"></i>
+                                                <i class="sort-caret descending" @click="paiXu('排课孩子数',2)"></i></span>
+                                            </div>
+                                        </th>
+                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['出勤课时数']==1,' descending':orders['出勤课时数']==2}">
+                                            <div class="cell">出勤课时数<span class="caret-wrapper" >
+                                                <i class="sort-caret ascending"  @click="paiXu('出勤课时数',1)"></i>
+                                                <i class="sort-caret descending" @click="paiXu('出勤课时数',2)"></i></span>
+                                            </div>
+                                        </th>
+                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['出勤孩子数']==1,' descending':orders['出勤孩子数']==2}">
+                                            <div class="cell">出勤孩子数<span class="caret-wrapper" >
+                                                <i class="sort-caret ascending"  @click="paiXu('出勤孩子数',1)"></i>
+                                                <i class="sort-caret descending" @click="paiXu('出勤孩子数',2)"></i></span>
+                                            </div>
+                                        </th>		
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="r of data_rank">
+                                        <td>{{$index}}</td>
+                                        <td>{{r['中心']}}</td>
+                                        <td>{{r['报名家庭数']}}</td>
+                                        <td>{{r['排课数']}}</td>
+                                        <td>{{r['排课孩子数']}}</td>
+                                        <td>{{r['出勤课时数']}}</td>
+                                        <td>{{r['出勤孩子数']}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -108,41 +167,60 @@
                 type: Object,
                 default: {}
             },
-            show_active: {
-                type: Boolean,
-                default: false
+            index_cur: {
+                type: String
             }
 
         },
         data:function(){
             return {
                  type:'gym',
-                 orders:{gym:1,active:-1,all_enroll:-1,active_enroll:-1,num_class:-1}
+                 orders:{gym:1,active:-1,all_enroll:-1,active_enroll:-1,num_class:-1},
+                 orders_active:{gym:1,active:-1,all_enroll:-1,active_enroll:-1,num_class:-1},
+                 orders_actual:{"中心":1,"报名家庭数":-1,"排课数":-1,"排课孩子数":-1,"出勤课时数":-1,"出勤孩子数":-1}
             }
         },
         computed:{
-            data_filter:function(){
+            data_rank:function(){
                var self=this;
+               //console.log(self.stat)
                var res=self.stat.data;
-               //console.error(self.orders[self.type]);
                if(res&&self.orders[self.type]!=-1){
                   res=res.sort(function(a,b){
                       if(self.orders[self.type]==1){
-                          if(self.type=='gym'){
-                              return a["gym"].localeCompare(b["gym"],"zh");
+                          if(self.type=='gym'||self.type=='中心'){
+                              return a[self.type].localeCompare(b[self.type],"zh");
                           }
                           return a[self.type]-b[self.type];
                       }else{
-                         if(self.type=='gym'){
-                              return b["gym"].localeCompare(a["gym"],"zh");
+                         if(self.type=='gym'||self.type=='中心'){
+                              return b[self.type].localeCompare(a[self.type],"zh");
                           }
                           return b[self.type]-a[self.type];
                       }
                   })
-                  //console.error(res);
+                  let total=this.type=="gym"?{"gym":"合 计"}:{"中心":"合 计"};
+                  for(let i in self.orders){
+                      if(['gym','中心'].indexOf(i)==-1){
+                          total[i]=this.total(res,i)
+                      }
+                  }
+                  res.unshift(total);
                }
                return res;
             }
+        },
+        watch:{
+           index_cur (newval) {
+               if(newval=="活跃会员排课统计"){
+                   this.orders=this.orders_active;
+                   this.type='gym';
+               }else{
+                   this.orders=this.orders_actual;
+                   this.type='中心';
+               }
+	        }
+
         },
         methods:{
             paiXu:function(type,order){
@@ -150,7 +228,7 @@
                     this.orders[i]=-1;
                 }
                 this.orders[type]=order;
-                console.log(this.orders);
+                //console.log(this.orders);
                 this.type=type;
             }
         },

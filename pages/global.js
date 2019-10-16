@@ -174,6 +174,18 @@ export default{
                  throw new Error("sql没有main标识！")
              }
              return str;
+          },
+          total(arr,key,type="int"){
+              if(!typeof arr) return 0;
+              return arr.reduce(function(a,b){
+                  if(type=="float"){
+                      a=a+parseFloat(b[key]);
+                  }else{
+                      //console.log(b,key,b[key])
+                      a=a+parseInt(b[key]);
+                  }
+                  return a;
+              },0)
           }
     }    
     
