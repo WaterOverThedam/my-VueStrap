@@ -25,14 +25,15 @@
                      <a class="text text-danger" href="https://bbk.800app.com/uploadfile/staticresource/238592/279833/campaign.html#!/home/2" target="_blank">>>转到家庭</a>
                 </p>
             </alert>
+
             <alert :show.sync="showTop" placement="top" type="info" width="650px" class="alert" dismissable>
                 <div class="ui" v-show="showzk">
                     <span class="glyphicon glyphicon-info-sign"></span>
                     <strong>转课待处理</strong>
                     <ul class="ui">
                             <li v-for="s of data_zk">
-                                <label v-html="s.msg"></label><a class="text text-danger" href="https://bbk.800app.com/index.jsp?mlist=1&mfs1=crm_sj&menu=3&mid={{s.id}}"
-                                    target="_blank">转到家庭</a>
+                                <label v-html="s.msg"></label><a class="text text-danger" @click.prevent='toFamily(`https://bbk.800app.com/index.jsp?mlist=1&mfs1=crm_sj&menu=3&mid=${s.id}`)'
+                                    >转到家庭</a>
                             </li>
                     </ul>
                 </div>
@@ -56,6 +57,23 @@
                 </div>
                 <embed class='incompatible' id="music" src="" width="0" height="0">
             </alert>
+            <!-- 接收确认 -->
+            <alert placement="top" type="warning" width="400px" :show.sync="revWarn.aftershow" duration=3400 dismissable>
+            <strong>{{revWarn.afterwarn}}</strong>
+            </alert>
+            <modal :show.sync="revWarn.show" effect="fade" width="400px">
+            <div slot="title" class="modal-title">
+                    <span class="glyphicon glyphicon-info-sign text-danger"></span>
+                    <b  class="text-danger" v-text="revWarn.title"></b> 
+            </div>
+            <div slot="modal-body" class="modal-body">
+                <h4><b>{{revWarn.content}}</b></h4>
+            </div>
+            <div slot="modal-footer" class="modal-footer">
+                <a class="btn btn-success" :href="revWarn.url" target="_blank" @click="revWarn.show = false">是</a>
+                <button type="button" class="btn btn-default" @click="negative()">否</button>
+            </div>
+            </modal>
         </div>
     </div>
 </template>
@@ -63,14 +81,16 @@
 <script>
 	import alert from '@/src/Alert.vue'
 	import tooltip from '@/src/Tooltip.vue'
-	import checkbox from '@/src/Checkbox.vue'
+    import checkbox from '@/src/Checkbox.vue'
+    import modal from '@/src/Modal.vue';
 	import qs from 'qs';
 
     export default {
             components: {
                 tooltip,
                 checkbox,
-                alert
+                alert,
+                modal
             },
             props: {
                 select: {
@@ -80,6 +100,7 @@
             data:function() {
 				return	{
                     title:"工作内容",
+                    revWarn:{show:false,url:"",title:"转课接收提示",content:"接收中心请确认是否已经收到全额转课款项？",aftershow:false,afterwarn:"请确认收到全额转课款项，再进行oasis合约接收操作!"},
 					weeknum: null,
 					isCheck: false,
 					showTop: false,
@@ -262,6 +283,16 @@
                 }
             },
             methods: {
+                toFamily:function(url){
+                    this.revWarn.url=url;
+                    this.revWarn.show=true;
+                    this.revWarn.aftershow=false;
+                },
+                negative(){
+                    this.revWarn.show=false;
+                    this.revWarn.aftershow=true;
+                    console.error(this.revWarn)
+                },
                 showAlert: function () {
                     this.$set('alertIsOpen', true);
                 },
