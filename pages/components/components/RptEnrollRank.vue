@@ -98,42 +98,12 @@
                                 <thead>
                                     <tr class="positive">
                                         <th>序号</th>
-                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['中心']==1,' descending':orders['中心']==2}">
-                                            <div class="cell">中心<span class="caret-wrapper" >
-                                                <i class="sort-caret ascending"  @click="paiXu('中心',1)"></i>
-                                                <i class="sort-caret descending" @click="paiXu('中心',2)"></i></span>
+                                        <th v-for="(key,val) in orders" class="is-leaf is-sortable" :class="{' ascending':orders[key]==1,' descending':orders[key]==2}">
+                                            <div class="cell">{{key}}<span class="caret-wrapper" >
+                                                <i class="sort-caret ascending"  @click="paiXu(key,1)"></i>
+                                                <i class="sort-caret descending" @click="paiXu(key,2)"></i></span>
                                             </div>
-                                        </th>
-                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['报名家庭数']==1,' descending':orders['报名家庭数']==2}">
-                                            <div class="cell">报名家庭数<span class="caret-wrapper" >
-                                                <i class="sort-caret ascending"  @click="paiXu('报名家庭数',1)"></i>
-                                                <i class="sort-caret descending" @click="paiXu('报名家庭数',2)"></i></span>
-                                            </div>
-                                        </th>
-                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['排课数']==1,' descending':orders['排课数']==2}">
-                                            <div class="cell">排课数<span class="caret-wrapper" >
-                                                <i class="sort-caret ascending"  @click="paiXu('排课数',1)"></i>
-                                                <i class="sort-caret descending" @click="paiXu('排课数',2)"></i></span>
-                                            </div>
-                                        </th>
-                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['排课孩子数']==1,' descending':orders['排课孩子数']==2}">
-                                            <div class="cell">排课孩子数<span class="caret-wrapper" >
-                                                <i class="sort-caret ascending"  @click="paiXu('排课孩子数',1)"></i>
-                                                <i class="sort-caret descending" @click="paiXu('排课孩子数',2)"></i></span>
-                                            </div>
-                                        </th>
-                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['出勤课时数']==1,' descending':orders['出勤课时数']==2}">
-                                            <div class="cell">出勤课时数<span class="caret-wrapper" >
-                                                <i class="sort-caret ascending"  @click="paiXu('出勤课时数',1)"></i>
-                                                <i class="sort-caret descending" @click="paiXu('出勤课时数',2)"></i></span>
-                                            </div>
-                                        </th>
-                                        <th class="is-leaf is-sortable" :class="{' ascending':orders['出勤孩子数']==1,' descending':orders['出勤孩子数']==2}">
-                                            <div class="cell">出勤孩子数<span class="caret-wrapper" >
-                                                <i class="sort-caret ascending"  @click="paiXu('出勤孩子数',1)"></i>
-                                                <i class="sort-caret descending" @click="paiXu('出勤孩子数',2)"></i></span>
-                                            </div>
-                                        </th>		
+                                        </th>	
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -141,9 +111,9 @@
                                         <td>{{$index}}</td>
                                         <td>{{r['中心']}}</td>
                                         <td>{{r['报名家庭数']}}</td>
-                                        <td>{{r['排课数']}}</td>
+                                        <td>{{r['排课人次']}}</td>
                                         <td>{{r['排课孩子数']}}</td>
-                                        <td>{{r['出勤课时数']}}</td>
+                                        <td>{{r['出勤人次']}}</td>
                                         <td>{{r['出勤孩子数']}}</td>
                                     </tr>
                                 </tbody>
@@ -177,7 +147,7 @@
                  type:'gym',
                  orders:{gym:1,active:-1,all_enroll:-1,active_enroll:-1,num_class:-1},
                  orders_active:{gym:1,active:-1,all_enroll:-1,active_enroll:-1,num_class:-1},
-                 orders_actual:{"中心":1,"报名家庭数":-1,"排课数":-1,"排课孩子数":-1,"出勤课时数":-1,"出勤孩子数":-1}
+                 orders_actual:{"中心":1,"报名家庭数":-1,"排课人次":-1,"排课孩子数":-1,"出勤人次":-1,"出勤孩子数":-1}
             }
         },
         computed:{
