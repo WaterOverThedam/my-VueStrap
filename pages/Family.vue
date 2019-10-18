@@ -41,6 +41,7 @@ export default {
                 cur_menu:'family',
                 start: false,
                 loading_pic:"https://bbk.800app.com/uploadfile/staticresource/238592/279833/loading.gif",
+                user:"",
 				acl: "",
 				gyms: [],
 				gymNames:{},
@@ -93,6 +94,7 @@ export default {
             .then(function(res){
                 if(res.status==200 && res.data.info[0].rec.constructor !=String){
                     self.select.acl = res.data.info[0].rec[0].crm_jiandang;
+                    self.select.user = res.data.info[0].rec[0].crm_qm;
                 }  
             },function(res){
                 console.error(res);

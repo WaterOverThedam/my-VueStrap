@@ -14,7 +14,7 @@
 								<button slot="before" type="button" class="btn btn-default" @click.prevent="init()"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
 								<li><a href="#dropdown"></a></li>
 								<ul slot="dropdown-menu" class="dropdown-menu">
-									<li><a href="#dropdown" @click.prevent="dialogAdv.show=true">高级筛选</a></li>
+									<li><a href="#dropdown" @click.prevent="toAdv()">高级筛选</a></li>
 								</ul>
 							</dropdown>
 						</bs-input> 
@@ -388,6 +388,10 @@ export default {
 		}
   },
   methods:{	 
+	    toAdv(){
+			this.dialogAdv.show=true
+			if(!this.searchTypes.tutor.sub_option[0].val)this.searchTypes.tutor.sub_option[0].val=this.select.user;
+		},
 	    plus:function(t){
 		   if(this.Tp.length>=this.searchTypesFilter.length) return;
            this.Tp.push(undefined);
@@ -661,7 +665,7 @@ export default {
 	}
 	
   },
-  created(){
+  ready(){
 	  this.select.cur_menu="family";
 	  this.familyType="recent";
   }
