@@ -1,7 +1,14 @@
 <template>
    <div>
         <component :select="select" :is="task"></component>
-
+      <sidebar :show.sync="docQA.show" placement="right" header="Title" :width="350">
+        <h4>Text in aside</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p> Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat.</p>
+      </sidebar>
         <modal v-for="indx of indexes" :show.sync="indx.warn" effect="fade" >
             <div slot="title" class="modal-title">
                 <span class="glyphicon glyphicon-info-sign text-danger"></span>
@@ -158,6 +165,12 @@
                                     </Poptip>
                                 </div>
                             </div>
+                            <div class="ui segment title">
+                                <div class="ui grid">
+                                    <div class="eight wide column"><a  @click="docQA.show=true">飞跃挑战赛Q&A</a></div>
+                                    <div class="eight wide column"><a  @click="docQA.show=true">备选课程方案</a></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -176,6 +189,7 @@
                 </div>
             </div>
         </alert> 
+
    </div>
    
 </template>
@@ -188,10 +202,12 @@ import Tag from 'src/tag';
 import Poptip from 'src/poptip';
 import alert from '@/src/Alert.vue';
 import tooltip from '@/src/Tooltip.vue';
+import sidebar from 'src/Aside.vue'
 export default {
 	  data(){
 		return  { 
             task:"Must-do",
+            docQA:{show:false,content:""},
 			select: {
                 start: false,
                 loading_pic:"https://bbk.800app.com/uploadfile/staticresource/238592/279833/loading.gif",
@@ -231,7 +247,8 @@ export default {
            Tag,
            tooltip,
            alert,
-           Poptip
+           Poptip,
+           sidebar
       },
 	  computed:{
             isadmin:function(){
