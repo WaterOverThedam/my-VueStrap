@@ -494,7 +494,7 @@ export default {
                if(self.select.phonePlans&&self.select.phonePlans.length>0){
                  self.flushstate();
                }
-           }, 110000);
+           }, 88000);
       }
   } 
 
