@@ -9,7 +9,7 @@
       <h3 class="popover-title" v-if="title">
         <slot name="title">{{title}}</slot>
       </h3>
-      <div class="popover-content">
+      <div class="popover-content" :style="{width:width+'px'}">
         <slot name="content">{{{content}}}</slot>
       </div>
     </div>
@@ -25,6 +25,9 @@ export default {
     trigger: {
       type: String,
       default: 'click'
+    },
+    width:{
+      type: String
     }
   }
 }

@@ -39,6 +39,7 @@
     "babel-preset-es2015": "^6.16.0",
     "babel-runtime": "^6.11.0",
     "css-loader": "^0.21.0",
+    "deepmerge": "^4.1.1",
     "gh-pages": "^0.11.0",
     "less": "^2.7.0",
     "less-loader": "^2.2.3",
