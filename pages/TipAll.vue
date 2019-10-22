@@ -234,6 +234,25 @@
                </p> 
             </div>
         </modal>
+
+        <modal :show.sync="importance.show" effect="fade" width="60%">
+            <div slot="title" class="modal-title">
+                    <h2 style="text-align:center"><b>关于电子证书编号认证的重要通知</b></h2>
+            </div>
+            <div slot="modal-body" class="modal-body">
+                <div class="ui segment importance">
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;各位中心的小伙伴，本次飞跃挑战赛报名小程序的<span class="text-danger">报名通道即将在2019年10月31日24点关闭</span>，进入制作电子证书的程序。请务必在此之前，督促已参赛的会员家长尽快在小程序里报名拿到自己的参赛证，电子证书的制作基础是参赛证。如果没有进入小程序报名，是无法拿到电子证书，请知晓！</p>
+                <br/>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另：电子证书的编号会请各中心于11月8日之前核实完毕，11月10日总部会将电子证书清单汇总备案，并开始编号抽奖。</p>             
+                </div>
+            </div>
+            <div slot="modal-footer" >
+               <p class="text-center">
+                <button type="button" class="btn btn-danger btn-block" @click="docQA.show=false;">知道了,关闭</button>
+               </p> 
+            </div>
+        </modal>
+
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -264,6 +283,7 @@ export default {
 		return  { 
             task:"Must-do",
             docQA:{show:false,content:""},
+            importance:{show:false},
             bei:{show:false,content:""},
 			select: {
                 start: false,
@@ -532,6 +552,7 @@ export default {
                     });
                 });
                 this.jump_post.show=true;
+                this.importance.show=true;
             }
         }
  
@@ -583,5 +604,10 @@ export default {
     font-style:italic;
     font-weight: bold;
   }
+  .importance{
+      font-weight: bold;
+      font-size: 18px !important;
+  }
+ 
  
 </style>
