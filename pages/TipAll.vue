@@ -120,6 +120,11 @@
                                     <a  title="点击查看详细" href="#" @click.prevent="docQA.show=true">飞跃挑战赛Q&A</a>&nbsp;
                                     <span class="glyphicon glyphicon-hand-left"></span>
                             </div>
+                            <div class="ui segment head">
+                                    <a  title="点击查看详细" href="#" @click.prevent="procedures.show=true">中心挑战赛（中心复赛）流程</a>&nbsp;
+                                    <span class="glyphicon glyphicon-hand-left"></span>
+                            </div>
+                            
                             <div class="ui segment title">
                                 <p>初赛证书</p>
                             </div>
@@ -167,9 +172,26 @@
             <div slot="modal-footer" >
             </div>
         </modal>
+        <modal :show.sync="importance.show" effect="fade" width="68%">
+            <div slot="title" class="modal-title">
+                    <h2 style="text-align:center"><b>{{importance.title}}</b></h2>
+            </div>
+            <div slot="modal-body" class="modal-body">
+                <div class="ui segment importance">
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;各位中心的小伙伴，本次飞跃挑战赛报名小程序的<span class="text-danger">报名通道即将在2019年10月31日24点关闭</span>，进入制作电子证书的程序。请务必在此之前，督促已参赛的会员家长尽快在小程序里报名拿到自己的参赛证，电子证书的制作基础是参赛证。如果没有进入小程序报名，是无法拿到电子证书，请知晓！</p>
+                <br/>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另：电子证书的编号清单，总部会统一发给各中心，请各中心于11月8日之前核实完毕，11月10日总部会将电子证书清单汇总备案，并开始编号抽奖。</p>             
+                </div>
+            </div>
+            <div slot="modal-footer" >
+               <p class="text-center">
+                <button type="button" class="btn btn-danger btn-block" @click="docQA.show=false;">知道了,关闭</button>
+               </p> 
+            </div>
+        </modal>
         <modal  :show.sync="docQA.show" effect="fade" width="95%">
           <div slot="title" class="modal-title">
-                <h2 style="text-align:center"><b>飞跃挑战赛Q&A</b></h2>
+                <h2 style="text-align:center"><b>{{docQA.title}}</b></h2>
           </div>
           <div slot="modal-body" class="modal-body">
             <div class="ui segment">
@@ -234,24 +256,70 @@
                </p> 
             </div>
         </modal>
-
-        <modal :show.sync="importance.show" effect="fade" width="60%">
+        <modal :show.sync="procedures.show" effect="fade" width="70%">
             <div slot="title" class="modal-title">
-                    <h2 style="text-align:center"><b>关于电子证书编号认证的重要通知</b></h2>
+                <h2 style="text-align:center"><b>{{procedures.title}}</b></h2>
             </div>
             <div slot="modal-body" class="modal-body">
-                <div class="ui segment importance">
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;各位中心的小伙伴，本次飞跃挑战赛报名小程序的<span class="text-danger">报名通道即将在2019年10月31日24点关闭</span>，进入制作电子证书的程序。请务必在此之前，督促已参赛的会员家长尽快在小程序里报名拿到自己的参赛证，电子证书的制作基础是参赛证。如果没有进入小程序报名，是无法拿到电子证书，请知晓！</p>
-                <br/>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另：电子证书的编号会请各中心于11月8日之前核实完毕，11月10日总部会将电子证书清单汇总备案，并开始编号抽奖。</p>             
-                </div>
+                <div class="ui segment" >
+                    <div class="ui one column grid" style="padding:1%">
+                        <div class="row">
+                            <div class="column">
+                                <div class="ui two column grid">
+                                    <div class="column"><img class="ui medium right image" style="padding-left:20%;" :src="procedures.pic[0]"></div>
+                                    <div class="column parent"><p class="child">飞跃挑战赛 中心挑战赛</p></div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="column">
+                                <p class="title2">时间：10/26,27（有中心可能会延后，建议中心在初赛后两周内举办）</p>
+                                <p class="title2">时长：1.5小时</p>
+                                <p class="title2">人数：30组家庭</p>
+                                <p class="title2">年龄段：30个月-12岁</p>
+                                <p class="title2">会员是扣课参加（1课时，OASIS里需要提前新建班级）；非会员付费参加</p>
+                            </div>
+                        </div>    
+                        <div class="row">
+                            <div class="column"><img class="ui massive center image"  :src="procedures.pic[1]"></div>
+                        </div>  
+                        <div class="row">
+                            <p class="title2">中心复赛择优录取（２０个名额）：每个年龄段前4名孩子参与到复赛中</p>
+                            <p class="title2">公开报名名额：10名选手公开招募，可以是非会员(新中心按实际情况分配名额）</p>
+                        </div>  
+                        <div class="row">
+                            <div class="column">
+                                <p style="text-align:center" class="head">比赛流程</p>
+                                <p class="subhead">召集欢迎</p>
+                                <p class="txt">&nbsp;&nbsp;&nbsp;&nbsp;每位孩子进入中心签到时，都会有一个号码牌，进教室之前贴在衣服上（孩子的参赛号码提前根据初赛Level分组编写）</p>
+                                <p class="subhead">开场</p>
+                                <p class="txt">1.组织所有家庭来到大红垫子上围成一个圈，一起唱出我们赛事的主题曲也是我们的经典开场曲目Hello Song</p>
+                                <p class="txt">2.Lead介绍比赛事项：</p>
+                                <p class="txt">分为3轮，每一轮含3个等级，该等级的孩子分别在相应轮次进行比赛</p>
+                                <p class="txt">每个孩子一轮中依然有两次试跳</p>
+                                <p class="txt">初始等级为孩子初赛中取得的降一级Level（如果孩子在初赛获得Level 3，在复赛则从Level 2开始比赛，老师需要提前备注好孩子的参赛等级） 如果是体验的孩子：超级怪兽，FB年龄段均从Level 1开始；GW从Level 2开始，GF，GS从Level 3开始</p>
+                                <p class="txt">3.闪亮登场</p>
+                                <p class="txt">在大红垫中间放一个trap,老师按照号码牌顺序依次叫孩子站在Trap上，介绍名字，登场；<b>老师告知孩子复赛的初始等级，并告知第几轮次进行</b></p>
+                                <p class="txt">4.喊出口号：我一上场，就是冠军</p>
+                                <p class="subhead">热身</p>
+                                <p class="txt">Music:Clap Your Hand</p>
+                                <p class="txt">所有的孩子来到大红垫和第一个站点，一起拍手，跺脚舞动自己</p>
+                                <p class="txt">歌曲技能部分改为：</p>
+                                <p class="txt">Walk </p>
+                                <p class="txt">Jump</p>
+                                <p class="txt">深蹲</p>
+                            </div>
+                        </div>  
+                    </div>
+                </div>        
             </div>
             <div slot="modal-footer" >
-               <p class="text-center">
-                <button type="button" class="btn btn-danger btn-block" @click="docQA.show=false;">知道了,关闭</button>
-               </p> 
+                <p class="text-center">
+                    <button type="button" class="btn btn-danger btn-block" @click="docQA.show=false;">知道了,关闭</button>
+                </p>
             </div>
         </modal>
+                
 
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
@@ -282,8 +350,9 @@ export default {
 	  data(){
 		return  { 
             task:"Must-do",
-            docQA:{show:false,content:""},
-            importance:{show:false},
+            docQA:{show:false,title:"飞跃挑战赛Q&A"},
+            procedures:{show:false,title:"中心挑战赛（中心复赛）流程",pic:["https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai1.png","https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai2.png"]},
+            importance:{show:false,title:"关于电子证书编号认证的重要通知"},
             bei:{show:false,content:""},
 			select: {
                 start: false,
@@ -579,9 +648,15 @@ export default {
 	   margin:0;
     }
     .title{
-       padding: 1.1% 1.1%;
+       padding: 1% 1%;
        font-weight: bold;
     }
+    .title2{
+       padding: 1% 1%;
+       padding-left:4%;
+       font-weight: bold;
+       font-size: 15px!important;
+    } 
   .jumbo img{
     width: 1160px;
     height: auto;
@@ -596,9 +671,13 @@ export default {
   .head{
      font-weight: bold;
      text-align: center;
-     font-size: 19px !important;
-     padding: 3% 3%;
+     font-size: 20px !important;
+     padding: 0.8% 0.8%;
 	 margin:0;
+  }
+  .subhead{
+     font-weight: bold;
+     font-size: 17px !important;
   }
   .talk {
     font-style:italic;
@@ -608,6 +687,18 @@ export default {
       font-weight: bold;
       font-size: 18px !important;
   }
- 
+  .parent{
+      position: relative;
+  }
+  .child{
+     top:40%;
+     font-size: 22px !important;
+     font-weight: bold;
+     position:absolute;
+     margin: auto;
+  }
+  .txt{
+      font-size: 16px;
+  }
  
 </style>

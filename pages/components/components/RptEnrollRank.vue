@@ -109,12 +109,7 @@
                                 <tbody>
                                     <tr v-for="r of data_rank">
                                         <td>{{$index}}</td>
-                                        <td>{{r['中心']}}</td>
-                                        <td>{{r['报名家庭数']}}</td>
-                                        <td>{{r['排课人次']}}</td>
-                                        <td>{{r['排课孩子数']}}</td>
-                                        <td>{{r['出勤人次']}}</td>
-                                        <td>{{r['出勤孩子数']}}</td>
+                                        <td  v-for="(key,val) in orders">{{r[key]}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -147,7 +142,7 @@
                  type:'gym',
                  orders:{gym:1,active:-1,all_enroll:-1,active_enroll:-1,num_class:-1},
                  orders_active:{gym:1,active:-1,all_enroll:-1,active_enroll:-1,num_class:-1},
-                 orders_actual:{"中心":1,"报名家庭数":-1,"排课人次":-1,"排课孩子数":-1,"出勤人次":-1,"出勤孩子数":-1}
+                 orders_actual:{"中心":1,"报名家庭数":-1,"排课人次":-1,"排课孩子数":-1,"出勤人次":-1,"未出勤人次":-1,"出勤孩子数":-1}
             }
         },
         computed:{
