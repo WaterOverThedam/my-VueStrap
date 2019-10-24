@@ -1,6 +1,6 @@
 <template>
    <div>
- 
+        <component :select="select" :is="task"></component>
         <modal v-for="indx of indexes" :show.sync="indx.warn" effect="fade" >
             <div slot="title" class="modal-title">
                 <span class="glyphicon glyphicon-info-sign text-danger"></span>
