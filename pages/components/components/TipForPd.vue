@@ -1,12 +1,13 @@
 <template>
     <div>
-      <modal :show.sync="grade.show" effect="fade" width="60%">
+      <modal :show.sync="grade.show" effect="fade" width="85%">
             <div slot="title" class="modal-title">
                 <span class="glyphicon glyphicon-info-sign text-danger"></span>
                 <b  class="text-danger" v-text="grade.title"></b> 
             </div>
             <div slot="modal-body" class="modal-body">
-                    <div class="ui segment parent" v-for="(key,item) in grade.data" track-by="$index">
+                  <div class="parent">
+                    <div class="ui segment" v-for="(key,item) in grade.data" track-by="$index">
                         <h3>{{key}}</h3>
                         <div class="ui segment" v-for="(k,v) in item">
                             <h4><b>{{progress(k,v)}}</b></h4>
@@ -17,6 +18,7 @@
                             </div>
                         </div>
                     </div>
+                 </div>
             </div>
             <div slot="modal-footer" >
                <p class="text-center">
@@ -113,7 +115,7 @@
 </script>
 <style scoped>
         .parent{
-            height:350px;
+            height:370px;
             overflow:scroll;
         }
  
