@@ -1,7 +1,7 @@
 <template>
    <div>
         <component :select="select" :is="task"></component>
-        <!-- <Tip-for-pd></Tip-for-pd> -->
+        <Tip-for-pd></Tip-for-pd>
         <modal v-for="indx of indexes" :show.sync="indx.warn" effect="fade" >
             <div slot="title" class="modal-title">
                 <span class="glyphicon glyphicon-info-sign text-danger"></span>
@@ -104,7 +104,7 @@
                </p> 
             </div>
         </modal>
-       <Tip-for-jump></Tip-for-jump>
+        <Tip-for-jump></Tip-for-jump>
 
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
