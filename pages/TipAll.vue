@@ -104,7 +104,8 @@
                </p> 
             </div>
         </modal>
-        <Tip-for-jump></Tip-for-jump>
+        <!-- <Tip-for-jump></Tip-for-jump> -->
+        <Tip-for-single-day></Tip-for-single-day>
 
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
@@ -126,6 +127,7 @@ import MustDo from './components/MustDo.vue';
 import Preparations from './components/Preparations.vue';
 import TipForPd from './components/components/TipForPd.vue';
 import TipForJump from './components/components/TipForJump.vue';
+import TipForSingleDay from './components/components/TipForSingleDay.vue';
 import modal from '@/src/Modal.vue';
 import Tag from 'src/tag';
 import alert from '@/src/Alert.vue';
@@ -168,7 +170,8 @@ export default {
            alert,
            sidebar,
            TipForPd,
-           TipForJump
+           TipForJump,
+           TipForSingleDay
       },
 	  computed:{
             isadmin:function(){
