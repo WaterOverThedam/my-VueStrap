@@ -571,11 +571,16 @@ export default {
 		},
 		show_on_campaign(field){
 		   var res=false;
+		   let campaign="";
+		   if(typeof this.select.campaign_selected=='string'){
+                  campaign=this.select.campaign_selected;
+		   }else {campaign=this.select.campaign_selected.join(",")};
 		   if(field=='channel'){
-				if(this.select.campaign_selected=="官网预约体验")res=true;
-				if(this.select.campaign_selected=="地推派发")res=true;
-				if(this.select.campaign_selected.indexOf("倒立")!=-1)res=true;
-				if(this.select.campaign_selected=="")res=true;
+				if(campaign=="官网预约体验")res=true;
+				if(campaign=="地推派发")res=true;
+				if(campaign.indexOf("倒立")!=-1)res=true;
+				if(campaign.indexOf("-作业")!=-1)res=true;
+				if(campaign=="")res=true;
 		   }
 		   return res;
 		},

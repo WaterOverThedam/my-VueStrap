@@ -612,6 +612,43 @@ export default {
 			this.pagenation=v;
 			//}
 		},
+		checkImportable(gymcode){
+			//console.error(gymcode)
+			var self=this;
+			self.select.start=true;
+			var sql=`select 0 errcode,'ok'errmsg,json_query(crmzdy_87700904) s,'@sql' sql from crm_zdytable_238592_26995_238592_view where id=1 for json path,without_array_wrapper`;
+			//console.error(sql)
+			self.$axios({
+				method: 'get',
+				url:url_local,
+				params:{sql1:sql}
+			}).then(function(res){
+			    if(res.status=200){
+				   let s=res.data&&res.data.s;
+				  // console.error(s)
+				   if(s){
+					   s=s.find(function(item){
+                          return item.gym&&item.gym.indexOf(gymcode)!=-1;
+					   })
+				   }
+				   if(s){
+					   if(self.isadmin){
+					      self.select.importable=true;
+					   }else{
+						  if(s.sd_enable){
+							 self.select.importable=true; 
+						  } 
+					   }
+				   }else{
+					   self.select.importable=false; 
+				   }
+				}
+				self.select.start=false;
+            },function(res){
+                self.select.start=false;
+                console.log(res.status);
+            });
+		},
 		debug(){
 			console.error(this.select.gym_selected)
 		}
@@ -658,10 +695,11 @@ export default {
 　　　   },
 　　　   deep: true
 	},
-    'select.gym_selected':function(){
+    'select.gym_selected':function(newValue){
 		if(this.validate(false)){
 			this.init();
 		}
+		this.checkImportable(newValue&&newValue.split("|")[3]);
 	}
 	
   },

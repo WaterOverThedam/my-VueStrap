@@ -7,7 +7,7 @@
 						<div class="column" >
 							<div class="ui tabular menu">
 				               <a v-for="m of select.menuGroup" :key="m.id" v-show="enabled(m.id)" class="item" :class="{active:m.id==select.cur_menu}" @click="menuChange(m.id)" v-link="{path:m.path}" v-text="m.name"></a>
-                               <a class="item" v-show="isadmin" href="https://bbk.800app.com/uploadfile/staticresource/238592/279833/import_family_head.aspx" target="_blank">批量导入家庭</a>
+                               <a class="item" v-show="select.importable" href="https://bbk.800app.com/uploadfile/staticresource/238592/279833/import_family_head.aspx" target="_blank">批量导入家庭</a>
 							</div>
 						</div>
 					</div>
@@ -47,7 +47,8 @@ export default {
 				gymNames:{},
 				gym_selected:"",
                 data: null,
-                ids:[]
+                ids:[],
+                importable:false
             }
             
 		}
