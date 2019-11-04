@@ -635,7 +635,7 @@ export default {
 					   if(self.isadmin){
 					      self.select.importable=true;
 					   }else{
-						  if(s.sd_enable){
+						  if(s.sd_enable&&self.select.acl.indexOf('销售主管')!=-1){
 							 self.select.importable=true; 
 						  } 
 					   }
