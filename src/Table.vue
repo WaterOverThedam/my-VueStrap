@@ -83,15 +83,13 @@
                     <h4 style="text-align:center" v-html="tip.title"></h2>
             </div>
             <div slot="modal-body" class="modal-body">
-                <div class="ui segment tip">
                     <alert  v-for="c of tip.content" :type="$index==0?'success':'info'">
                       {{trim(c)}}
                     </alert>
-                </div>    
             </div>
             <div slot="modal-footer" >
                <p class="text-center tip">
-                 <button type="button" class="btn btn-default btn-block" @click="tip.show=false;">关闭</button>
+                 <button type="button" class="btn btn-default btn-block" @click="closeTip()">关闭</button>
                </p> 
             </div>
         </modal>
@@ -169,6 +167,12 @@ export default {
 	   }
    },
    methods:{
+      closeTip(){
+        $(".fade-leave").remove();   
+        this.$nextTick(() => {
+          this.tip.show=false;
+        })
+      },
       trim(c){
          return c.replace(/(^\|)|([;；]$)/g,"");
       },
@@ -177,8 +181,15 @@ export default {
           content=content.replace(/(^\|)|([;；]$)/g,"");
           content=content.split("|");
           this.tip.title=`与${row['家长姓名']}(${row['家长手机']})<b>最近沟通记录</b>`;
+          this.tip.content=[];
           this.tip.content=content.reverse();
-          this.tip.show=true
+          //console.error(this.tip.content);
+          $(".fade-leave").remove(); 
+          this.$nextTick(() => {
+             this.tip.show=true;
+          })
+          
+   
       },
       add_class:function(h,val){
         if(!h.class) return '';
