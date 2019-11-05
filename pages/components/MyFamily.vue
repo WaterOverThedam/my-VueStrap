@@ -365,7 +365,7 @@ export default {
 			   {label:['最近沟通记录|l'],value:['','','recent'],order:-1},
 			   {label:['是否报名2019飞跃挑战赛|r',this.field_show("active")],value:[''],order:-1,class:{"highlight":"true"}},
 			   {label:['最新清单显示日期',this.isSaleMan],value:[''],order:2},
-			   {label:['最近浏览时间'],value:['',this.fmtDt("yyyy-MM-dd hh:mm:ss")],order:2}
+			   {label:['最近浏览时间'],value:['',this.fmtDt("yyyy-MM-dd hh:mm:ss")],order:2,tip:"gt"}
 			]   
 		},
 		sqlBuilder:function () {

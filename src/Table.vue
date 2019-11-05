@@ -31,7 +31,13 @@
                         <td v-show="checkbox.show">
                             <input name="update" type="checkbox" :value="item.id" v-model="checkbox.ids">
                         </td>
-                        <td :style="tb_style&&tb_style.td" v-for="h of header" :class="align(h.label[0])+' '+add_class(h,value(h,item))"  v-show="show(h)" v-html="value(h,item)"></td>
+                        <template v-for="h of header">
+            
+                           <td v-if="!h.tip" :style="tb_style&&tb_style.td"  :class="align(h.label[0])+' '+add_class(h,value(h,item))"  v-show="show(h)" v-html="value(h,item)" ></td>
+                           <td v-else :style="tb_style&&tb_style.td"  :class="align(h.label[0])+' '+add_class(h,value(h,item))"  v-show="show(h)"  >
+                                   <span @click="toTip(item,h.tip)">{{value(h,item)}}</span>
+                           </td>
+                        </template>
                     </tr>
                 </tbody>
             </table>
@@ -72,13 +78,35 @@
                 </tfoot>
         </div>    
      </div>      
+       <modal :show.sync="tip.show" effect="zoom" width="65%">
+            <div slot="title" class="modal-title">
+                    <h4 style="text-align:center" v-html="tip.title"></h2>
+            </div>
+            <div slot="modal-body" class="modal-body">
+                <div class="ui segment tip">
+                    <alert  v-for="c of tip.content" :type="$index==0?'success':'info'">
+                      {{trim(c)}}
+                    </alert>
+                </div>    
+            </div>
+            <div slot="modal-footer" >
+               <p class="text-center tip">
+                 <button type="button" class="btn btn-default btn-block" @click="tip.show=false;">关闭</button>
+               </p> 
+            </div>
+        </modal>
  </template>
 
 <script> 
 import tooltip from '@/src/Tooltip.vue';
+import Popover from '@/src/Popover.vue';
+import modal from '@/src/Modal.vue';
+import Alert from '@/src/Alert.vue';
 export default {
    components:{
-       tooltip
+       tooltip,
+       modal,
+       Alert
    },
    props: {
        //loading进度
@@ -118,6 +146,7 @@ export default {
    },
    data:function(){
        return {
+         tip:{show:false,title:"",content:[]},
 		 pagerSpan:6,
 		 arr_pageSize:[
 		    {val:10,label:"每页 10 条"},{val:20,label:"每页 20 条"},{val:30,label:"每页 30 条"},{val:50,label:"每页 50 条"},
@@ -140,6 +169,17 @@ export default {
 	   }
    },
    methods:{
+      trim(c){
+         return c.replace(/(^\|)|([;；]$)/g,"");
+      },
+      toTip(row,key){
+          let content=row[key];
+          content=content.replace(/(^\|)|([;；]$)/g,"");
+          content=content.split("|");
+          this.tip.title=`与${row['家长姓名']}(${row['家长手机']})<b>最近沟通记录</b>`;
+          this.tip.content=content.reverse();
+          this.tip.show=true
+      },
       add_class:function(h,val){
         if(!h.class) return '';
         var cl=JSON.stringify(h.class);
@@ -423,5 +463,8 @@ export default {
     }
     .ui.table tr td{
         vertical-align: middle;
+    }
+    .tip{
+        font-size: 1.3rem!important;
     }
 </style>
