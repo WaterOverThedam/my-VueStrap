@@ -234,6 +234,15 @@
 				})
 				.then(function(res){
 					if(res.status==200 && res.data.errcode==0){
+					  let sql=sql_infoaudit.replace(/@idgym/,self.select.idgym);	
+					  sql=sql.replace(/\+/g,"add;")
+					  sql=self.convertor.ToUnicode(sql);
+					  let content=`dblquot;${t.gym}dblquot;已完成筹备任务${t.time},请及时审核！`;
+					  content=self.convertor.ToUnicode(content);
+					  let title="中心筹备进展审核提醒";
+					  title=self.convertor.ToUnicode(title);
+					  // console.error(t)
+					  self.infoAudit(sql,content,title);	
 					  self.getTasks();
 					}  
 				},function(res){
@@ -255,6 +264,20 @@
 								f.result="已提交";
 							}
 						})
+					}  
+				},function(res){
+					console.error(res);
+				});
+			},
+			infoAudit: function (sql,content,title) {
+				let url="https://bbk.800app.com/uploadfile/staticresource/238592/279833/api_member_set_xcx.aspx?obj=mail_sms_sql";
+				let self=this;
+				this.$axios.get(url,{
+					params:{sql,content,title}
+				})
+				.then(function(res){
+					if(res.status==200){
+                       console.log(res.data);
 					}  
 				},function(res){
 					console.error(res);
