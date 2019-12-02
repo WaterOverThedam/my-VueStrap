@@ -105,7 +105,7 @@
             </div>
         </modal>
         <!-- <Tip-for-jump></Tip-for-jump> -->
-        <Tip-for-single-day></Tip-for-single-day>
+        <!-- <Tip-for-single-day></Tip-for-single-day> -->
 
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">

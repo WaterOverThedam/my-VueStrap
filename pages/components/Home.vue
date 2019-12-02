@@ -371,6 +371,7 @@ export default {
 			if(this.select.acl.indexOf('系统管理员')!=-1
 			||this.select.acl.indexOf('市场顾问')!=-1
 			||this.select.acl.indexOf('运营顾问')!=-1
+			||this.select.acl.indexOf('中心运营总监')!=-1
 			||this.select.acl.indexOf('市场专员')!=-1){
 				return true;
 			}
