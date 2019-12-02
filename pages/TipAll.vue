@@ -106,7 +106,7 @@
         </modal>
         <!-- <Tip-for-jump></Tip-for-jump> -->
         <!-- <Tip-for-single-day></Tip-for-single-day> -->
-
+        <Tip-for1212></Tip-for1212>
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -128,6 +128,7 @@ import Preparations from './components/Preparations.vue';
 import TipForPd from './components/components/TipForPd.vue';
 import TipForJump from './components/components/TipForJump.vue';
 import TipForSingleDay from './components/components/TipForSingleDay.vue';
+import TipFor1212 from './components/components/TipFor1212.vue';
 import modal from '@/src/Modal.vue';
 import Tag from 'src/tag';
 import alert from '@/src/Alert.vue';
@@ -171,7 +172,8 @@ export default {
            sidebar,
            TipForPd,
            TipForJump,
-           TipForSingleDay
+           TipForSingleDay,
+           TipFor1212
       },
 	  computed:{
             isadmin:function(){

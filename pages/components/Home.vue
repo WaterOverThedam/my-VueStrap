@@ -580,7 +580,7 @@ export default {
 				if(campaign=="官网预约体验")res=true;
 				if(campaign=="地推派发")res=true;
 				if(campaign.indexOf("倒立")!=-1)res=true;
-				if(campaign.indexOf("-作业")!=-1)res=true;
+				if(campaign.indexOf("-会员中心")!=-1)res=true;
 				if(campaign=="")res=true;
 		   }
 		   return res;
