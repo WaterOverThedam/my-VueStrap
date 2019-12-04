@@ -118,16 +118,16 @@
 			return  { 
 				error:{show:false,msg:""},
 				files:[
-					{name:'中心价目表',form:'Excel表格',type:['xls','xlsx'],result:""},
-					{name:'中心排课表',form:'Excel表格',type:['xls','xlsx'],result:""},
-					{name:'开业申请表',form:'Excel表格',type:['xls','xlsx','jpg','jpeg','png','pdf'],result:""},
-					{name:'营业执照',form:'电子照片或扫描件/压缩包',type:['jpg','jpeg','png','pdf','zip','rar','tar.gz','7z'],result:""},
-					{name:'中心场地租凭协议',form:'电子照片或扫描件/压缩包',type:['jpg','jpeg','png','pdf','zip','rar','tar.gz','7z'],result:""},
-					{name:'保险合同扫描件',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
-					{name:'中心消防合格证',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
-					{name:'让渡协议',form:'电子照片或扫描件/压缩包',type:['jpg','jpeg','png','pdf','zip','rar','tar.gz','7z'],result:""},
-					{name:'承诺函',form:'电子照片或扫描件',type:['jpg','jpeg','png','pdf'],result:""},
-					{name:'中心照片(打包)',form:'压缩包',type:['zip','rar','tar.gz','7z'],result:""}
+					{name:'中心价目表',form:'Excel表格（仅支持上传一个文件）',type:['xls','xlsx'],result:""},
+					{name:'中心排课表',form:'Excel表格（仅支持上传一个文件）',type:['xls','xlsx'],result:""},
+					{name:'开业申请表',form:'Excel表格（仅支持上传一个文件）',type:['xls','xlsx','jpg','jpeg','png','pdf'],result:""},
+					{name:'营业执照',form:'电子照片或扫描件/压缩包（仅支持上传一个文件）',type:['jpg','jpeg','png','pdf','zip','rar','tar.gz','7z'],result:""},
+					{name:'中心场地租凭协议',form:'电子照片或扫描件/压缩包（仅支持上传一个文件或打包文件）',type:['jpg','jpeg','png','pdf','zip','rar','tar.gz','7z'],result:""},
+					{name:'保险合同扫描件',form:'电子照片或扫描件（仅支持上传一个文件',type:['jpg','jpeg','png','pdf'],result:""},
+					{name:'中心消防合格证',form:'电子照片或扫描件（仅支持上传一个文件）',type:['jpg','jpeg','png','pdf'],result:""},
+					{name:'让渡协议',form:'电子照片或扫描件/压缩包（仅支持上传一个文件或打包文件）',type:['jpg','jpeg','png','pdf','zip','rar','tar.gz','7z'],result:""},
+					{name:'承诺函',form:'电子照片或扫描件（仅支持上传一个文件）',type:['jpg','jpeg','png','pdf'],result:""},
+					{name:'中心照片（打包）',form:'电子照片或压缩包（仅支持上传一个文件或打包文件）',type:['jpg','jpeg','png','zip','rar','tar.gz','7z'],result:""}
 				],
 				visible: false,
 				tasks:[],
