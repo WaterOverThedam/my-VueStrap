@@ -29,6 +29,7 @@
 
 <script>
 import vSelect from '@/src/Select.vue';
+import exception from './components/campaign_exception.json'
 
 export default {
 	  data(){
@@ -39,7 +40,7 @@ export default {
                     {name:'Home',path:"/home/1",isActive:true,enabled:true},
                     {name:'Report',path:"/report",isActive:false,enabled:false}
                 ],
-                vgroup:[{name:'比赛',members:['挑战赛','冠军赛']},{name:'小小奥运',members:['小小奥运','集训营']},{name:'线下',members:['线下']},{name:'其它',members:['*']}],
+                vgroup:[{name:'常用',members:['官网预约体验','开业地推','地推派发','大众点评名单']},{name:'比赛',members:['挑战赛','冠军赛']},{name:'小小奥运',members:['小小奥运','集训营']},{name:'线下',members:['线下']},{name:'其它',members:['*']}],
                 group_cur:null,
                 start: false,
                 loading_pic:"https://bbk.800app.com/uploadfile/staticresource/238592/279833/loading.gif",
@@ -88,6 +89,8 @@ export default {
     	      if(this.select.acl.indexOf('系统管理员')!=-1
               ||this.select.acl.indexOf('市场顾问')!=-1
               ||this.select.acl.indexOf('运营顾问')!=-1
+              ||this.select.acl.indexOf("月球运营总监开发")!=-1
+              ||this.select.acl.indexOf("测试员工")!=-1
               ||this.select.acl.indexOf('市场专员')!=-1){
     		     return true;
     		  }
@@ -132,7 +135,8 @@ export default {
              });
        },
        getCampaign:function(func){
-		     var self=this;
+             var self=this;
+             self.select.campaigns=[];
              self.$http.jsonp(url_jsonp,{
                  sql1: sql_campaign
              },{
@@ -140,7 +144,14 @@ export default {
              }).then(function(res){
                  var campaigns= res.data.info[0].rec;
                  campaigns.map(function(g){
-                    self.select.campaigns.push({id:g.name,name:g.name});
+                     if(self.isadmin){
+                        self.select.campaigns.push({id:g.name,name:g.name});
+                     }else {
+                        //if(g.name=='东方CJ') console.error(exception.indexOf(g.name))
+                        if(exception.indexOf(g.name)==-1){
+                           self.select.campaigns.push({id:g.name,name:g.name});
+                        }
+                     }
                  }) 
              },function(res){
                  console.log(res.status);
@@ -152,6 +163,7 @@ export default {
         } 
       },
       created: function () {
+           //console.log(exception)
            this.getAcl_jsonp();
            this.getCampaign();
            this.getgym();
