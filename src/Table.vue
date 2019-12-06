@@ -32,10 +32,9 @@
                             <input name="update" type="checkbox" :value="item.id" v-model="checkbox.ids">
                         </td>
                         <template v-for="h of header">
-            
-                           <td v-if="!h.tip" :style="tb_style&&tb_style.td"  :class="align(h.label[0])+' '+add_class(h,value(h,item))"  v-show="show(h)" v-html="value(h,item)" ></td>
-                           <td v-else :style="tb_style&&tb_style.td"  :class="align(h.label[0])+' '+add_class(h,value(h,item))"  v-show="show(h)"  >
-                                   <span @click="toTip(item,h.tip)">{{value(h,item)}}</span>
+                           <td v-if="h&&!h.tip" :style="tb_style&&tb_style.td"  :class="align(h&&h.label[0])+' '+add_class(h,value(h,item))"  v-show="show(h)" v-html="value(h,item)" ></td>
+                           <td v-else :style="tb_style&&tb_style.td"  :class="align(h&&h.label[0])+' '+add_class(h,value(h,item))"  v-show="show(h)"  >
+                                   <span @click="toTip(item,h&&h.tip)">{{value(h,item)}}</span>
                            </td>
                         </template>
                     </tr>
@@ -192,12 +191,13 @@ export default {
    
       },
       add_class:function(h,val){
-        if(!h.class) return '';
-        var cl=JSON.stringify(h.class);
+        if(h&&!h.class) return '';
+        var cl=JSON.stringify(h&&h.class);
         //带elemnt的value处理
         if(/\>(.*)\</.test(val)){
             val=RegExp.$1;
         } 
+        if(!cl) return '';
         cl=cl.replace(/val/ig,val);
         cl=JSON.parse(cl);
         var res=[]
@@ -258,9 +258,9 @@ export default {
 		}
 	  },
 	  value:function(h,item){
-	    var key=h.value[2]||h.label[0].split("|")[0];
-	    var def=h.value[0];
-		var method = h.value[1];
+	    var key=h&&(h.value[2]||h.label[0].split("|")[0]);
+	    var def=h&&h.value[0];
+		var method =h&& h.value[1];
 		if(key){
             var res =(key=='row'?item:item[key])||h.value[0]; 
 		    if(typeof method==="function"){
