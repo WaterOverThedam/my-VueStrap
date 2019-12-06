@@ -18,10 +18,20 @@
                     <br/>
                     <img class="ui left aligned big image" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/1212.jpg">
                     <br/>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;参与本次全国双12活动的中心，老师oasis输入合约时“签约促销活动”选择“2019双十二活动加12元另赠2节课”，系统会自动生成两节赠课的，所有老师账户都能操作</p>
+                    <p class="indent">参与本次全国双12活动的中心，老师oasis输入合约时“签约促销活动”选择“2019双十二活动加12元另赠2节课”，系统会自动生成两节赠课的，所有老师账户都能操作</p>
                     <br/>
                     <img class="ui left aligned image" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/1212_instruction.png">
-                    <p><span class="head">【童心相依】</span>捐衣公益活动，预计12月中旬上线，以市场部官宣为准！</p>
+                    <br/>
+                    <p><span class="head">【童心相衣】</span>捐衣公益活动</p>
+                    <p>活动时间：2019年12月12日~1月12日</p>
+                    <p>活动须知：</p>
+                    <p>1）活动期间认捐数量有限，捐完即止</p>
+                    <p>2）捐赠要求：八成新、无污渍、无破损冬衣</p>
+                    <p>3）参与方式：12月12日活动上线后扫码进入捐赠页面，选择捐赠的衣物尺码及数量，自行寄出</p>
+                    <p>4）成功捐赠衣物的小朋友可凭捐衣页面至中心领取爱心证书一张，总部统一输出。</p>
+                    <br/>
+                    <img class="ui left aligned big image" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/charity.jpg">
+
                 </div>
             </div>
             <div slot="modal-footer" >
@@ -50,7 +60,7 @@
             return {
                 docQA:{show:false,title:"飞跃挑战赛Q&A"},
                 procedures:{show:false,title:"中心挑战赛（中心复赛）流程",pic:["https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai1.png","https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai2.png"]},
-                importance:{show:false,title:"总部12月推出【聚惠双12活动】以及【童心相依】捐衣公益活动！"},
+                importance:{show:false,title:"总部12月推出【聚惠双12活动】以及【童心相衣】捐衣公益活动！"},
                 jump_post:{
                     show:false,title:"飞跃挑战赛",closable:false,
                     urlPrefix:"https://static.thelittlegym.com.cn",
@@ -105,7 +115,9 @@
      font-size: 22px !important;
   }
  
-   
+ .indent{
+     text-indent:30px
+ }
   .importance{
       font-weight: bold;
       font-size: 18px !important;
