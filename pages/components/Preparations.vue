@@ -257,8 +257,8 @@
 				})
 				.then(function(res){
 					if(res.status==200){
-						self.files.map(function(f){
-							if(res.data&&res.data.findIndex(function(row){
+						self.files.map(function(f){							
+							if(res.data&& Array.isArray(res.data)&&res.data.findIndex(function(row){
 								return row.name.indexOf(f.name)!=-1;
 							})!=-1){
 								f.result="已提交";

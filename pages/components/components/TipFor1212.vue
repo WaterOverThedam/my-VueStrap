@@ -80,30 +80,16 @@
  
         },
         methods:{
-            to_1111(params) {
+            to_1212(params) {
                 var now = new Date();
-                var end = new Date("2019-12-08");
+                var end = new Date("2020-01-10");
                 if(now<end){
-                    // var self=this;
-                    // var videoUrl = this.jump_post.videoUrl;
-                    // var myPlayer = videojs('my-video');
-                    // // videojs("my-video", {}, function() {
-                    // //     window.myPlayer = this;
-                    // //     myPlayer.src(videoUrl);
-                    // //     myPlayer.load(videoUrl);
-                    // //     myPlayer.play();
-                    // //     myPlayer.on('ended', function() {
-                    // //         console.log('播放结束了!');
-                    // //         self.jump_post.closable=true;
-                    // //     });
-                    // // });
-                    // this.jump_post.show=true;
                     this.importance.show=true;
                 }
             }
         },
         ready:function(){
-            this.to_1111();
+            this.to_1212();
         }
     }
 </script>
