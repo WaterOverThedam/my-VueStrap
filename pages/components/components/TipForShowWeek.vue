@@ -125,9 +125,13 @@
     }
 </script>
 <style scoped>
-    
- .ui.small.image, .ui.small.images .image, .ui.small.images img, .ui.small.images svg {
-    width: 280px;
+  .ui.big.image, .ui.big.images .image, .ui.big.images img, .ui.big.images svg {
+    width: 520px;
+    height: auto;
+    font-size: 1.28571429rem;
+  }
+  .ui.small.image, .ui.small.images .image, .ui.small.images img, .ui.small.images svg {
+    width: 260px;
     height: auto;
     font-size: .92857143rem;
   }
