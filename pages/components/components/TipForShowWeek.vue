@@ -7,6 +7,13 @@
             </div>
             <div slot="modal-body" class="modal-body">
                 <div class="ui segment importance">
+                    <p class="head">
+                       <a href="#" @click.prevent="toDetail" style="color:red">
+                         <span>2019冬季Showweek（2020.1.6-1.12）宣讲话术等操作事项提醒&nbsp;&nbsp; </span>
+                         <span class="glyphicon glyphicon-hand-left">点击进入</span>
+                       </a>
+                    </p>
+                    <br/>
                     <p>一、表演：Showweek 证书由中心输出，填写相关信息，并由中心老师根据教案结束流程要求进行发放；</p>
                     <br/>
                     <img class="ui left aligned big image" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/showWeek/cert1.png">
@@ -34,13 +41,7 @@
                     <p>3.Show Week期间&结束后：充分利用微信、微博做宣传、做口碑；</p>
                     <br/>
                     <img class="ui left aligned huge image" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/showWeek/comments.png">
-                    <br/>
-                    <p class="head">
-                       <a href="#" @click.prevent="wording.show=true">
-                         <span>2019冬季Showweek（2020.1.6-1.12）宣讲话术等操作事项提醒&nbsp;&nbsp; </span>
-                         <span class="glyphicon glyphicon-hand-left"></span>
-                       </a>
-                    </p>
+ 
                 </div>
             </div>
             <div slot="modal-footer" >
@@ -72,6 +73,7 @@
                </p> 
             </div>
         </modal>
+        <Tip-for1212 :show="tip1212"></Tip-for1212>
     </div>
 
  </template>
@@ -79,16 +81,20 @@
 <script> 
     import modal from '@/src/Modal.vue';
     import Poptip from '@/src/poptip';
+    import TipFor1212 from './TipFor1212.vue';
     export default {
         components:{
            modal,
-           Poptip
+           Poptip,
+           TipFor1212
         },
         props: {
 
         },
         data:function(){
             return {
+                tmp:false,
+                tip1212:false,
                 wording:{show:false,title:"2019冬季Showweek宣讲话术&其他重要操作事项提醒"},
                 procedures:{show:false,title:"中心挑战赛（中心复赛）流程",pic:["https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai1.png","https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai2.png"]},
                 importance:{show:false,title:"2019冬季Showweek（2020.1.6-1.12）提醒：表演周+考级周"},
@@ -110,7 +116,29 @@
         computed:{
  
         },
+        watch:{
+            wording:{
+              handler(newValue, oldValue) {
+                  if(!newValue.show){ //仅false单向
+                     this.importance.show= true;  
+                  }
+              },
+              deep:true
+            },
+            importance:{
+              handler(newValue, oldValue) {
+                if(!newValue.show && !this.wording.show && !this.tmp) this.tip1212=true;
+              },
+              deep:true
+            }
+        },
         methods:{
+            toDetail(){
+              this.tmp=true;
+              this.importance.show=false;
+              this.wording.show=true;
+              this.tmp=false;        //引用tmp ,让importance不级联触发
+            },
             to_1212(params) {
                 var now = new Date();
                 var end = new Date("2020-01-10");

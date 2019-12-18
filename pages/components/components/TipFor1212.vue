@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <modal :show.sync="importance.show" effect="fade" width="78%">
+        <modal :show.sync="show" effect="fade" width="78%">
             <div slot="title" class="modal-title">
                     <h2 style="text-align:center"><b>{{importance.title}}</b></h2>
             </div>
@@ -54,7 +54,9 @@
            Poptip
         },
         props: {
-
+            show:{
+                default:false
+            }
         },
         data:function(){
             return {
