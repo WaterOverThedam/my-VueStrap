@@ -106,7 +106,8 @@
         </modal>
         <!-- <Tip-for-jump></Tip-for-jump> -->
         <!-- <Tip-for-single-day></Tip-for-single-day> -->
-        <Tip-for1212></Tip-for1212>
+        
+        <Tip-for-show-week></Tip-for-show-week>
         <alert :show.sync="audit_tip_show" placement="top" type="warning" width="600px" dismissable>
             <div class="ui">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -128,7 +129,8 @@ import Preparations from './components/Preparations.vue';
 import TipForPd from './components/components/TipForPd.vue';
 import TipForJump from './components/components/TipForJump.vue';
 import TipForSingleDay from './components/components/TipForSingleDay.vue';
-import TipFor1212 from './components/components/TipFor1212.vue';
+
+import TipForShowWeek from './components/components/TipForShowWeek.vue';
 import modal from '@/src/Modal.vue';
 import Tag from 'src/tag';
 import alert from '@/src/Alert.vue';
@@ -158,7 +160,6 @@ export default {
             tipForAudit:[],
             rank:{warn:false,title:"本月全国中心即时业绩排名",data:[],groups:{}},
             audit_tip_show:false,
-
             
 		}
 	  },
@@ -173,7 +174,8 @@ export default {
            TipForPd,
            TipForJump,
            TipForSingleDay,
-           TipFor1212
+    
+           TipForShowWeek
       },
 	  computed:{
             isadmin:function(){

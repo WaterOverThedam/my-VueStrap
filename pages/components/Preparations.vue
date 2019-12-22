@@ -206,7 +206,7 @@
             handleSuccess (f) {
 				var self=this;
 				return function (res, file){
-				    console.log(res.data)
+				    // console.log(res.data)
 					if(res.success){
 						file.url = res.data['oss-request-url'];
 						if(res.data['oss-stringtosign']&&self.getFileName(res.data['oss-stringtosign'])){
@@ -260,7 +260,7 @@
 					if(res.status==200){
 						let data = res.data && res.data.data;
 						self.files.map(function(f){
-							if(data && data.findIndex(function(row){
+							if(data && Array.isArray(data) && data.findIndex(function(row){
 								return row.name.indexOf(f.name)!=-1;
 							})!=-1){
 								f.result="已提交";
