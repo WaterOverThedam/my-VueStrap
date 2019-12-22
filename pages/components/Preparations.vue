@@ -54,12 +54,11 @@
 									<Upload
 										:format="f.type"
 										:on-format-error="handleFormatError"
-										:max-size="20480"
+										:max-size="204800"
 										:on-exceeded-size="handleMaxSize"
-										:name="f.name"
-										:data="{gymcode:select.code}"
+										:data="{resourceUrl: 'preparationFiles/'+select.code,filename: f.name}"
 										:on-success="handleSuccess(f)"
-										action="https://api.thelittlegym.com.cn/oss/upload_preparation_files">
+										action="https://tlgc.thelittlegym.com.cn/api/oss">
 										<button type="button" class="btn btn-default">
 											<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload
 										</button>
@@ -177,6 +176,8 @@
 				}
 			}
 		},
+		computed:{
+		},
 		methods:{
 			getTasks:function(){
 				var sql=sql_getTasks;
@@ -199,14 +200,14 @@
 				this.error.show=true;
 			},
             handleMaxSize (file) {
-				this.error.msg="超出文件大小限制(最大20M)";
+				this.error.msg="超出文件大小限制(最大200M)";
 				this.error.show=true;
 			},
             handleSuccess (f) {
 				var self=this;
 				return function (res, file){
-					if(res.code==200){
-						console.log(res.data['oss-request-url'])
+				    console.log(res.data)
+					if(res.success){
 						file.url = res.data['oss-request-url'];
 						if(res.data['oss-stringtosign']&&self.getFileName(res.data['oss-stringtosign'])){
 						   file.name = self.getFileName(res.data['oss-stringtosign']);
@@ -250,15 +251,16 @@
 				});
 			},
 			getOss: function () {
-				let url="https://api.thelittlegym.com.cn/oss/list_preparation_files";
+				let url="https://tlgc.thelittlegym.com.cn/api/oss";
 				let self=this;
 				this.$axios.get(url,{
-					params:{gymcode:this.select.code}
+					params:{resourceUrl:`preparationFiles/${this.select.code}`}
 				})
 				.then(function(res){
 					if(res.status==200){
+						let data = res.data && res.data.data;
 						self.files.map(function(f){
-							if(res.data&&res.data.findIndex(function(row){
+							if(data && data.findIndex(function(row){
 								return row.name.indexOf(f.name)!=-1;
 							})!=-1){
 								f.result="已提交";
