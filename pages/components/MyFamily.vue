@@ -525,7 +525,7 @@ export default {
 				self.$axios({
 						method: 'post',
 						url:url_local,
-						params:{sql1:sql_update,onlysql:(self.select.onlysql?1:0)}
+						data:$.param({sql1:sql_update,onlysql:(self.select.onlysql?1:0)})
 					}).then(function(res){
 						if(res.status=200&&res.data.errcode==0){
 							self.alertSuccess={show:true,title:'操作提示',msg:'操作成功'};
@@ -560,7 +560,7 @@ export default {
 			self.$axios({
 				method: 'post',
 				url:url_local,
-                params:{sql1:sql,onlysql:(self.select.onlysql?1:0)}
+                data:$.param({sql1:sql,onlysql:(self.select.onlysql?1:0)})
 			}).then(function(res){
 			    if(res.status=200){
 				   //console.log(JSON.stringify(res.data))
@@ -581,7 +581,7 @@ export default {
 			self.$axios({
 				method: 'post',
 				url:url_local,
-                params:{sql1:this.sqlBuilder,onlysql:(self.select.onlysql?1:0)}
+                data:$.param({sql1:this.sqlBuilder,onlysql:(self.select.onlysql?1:0)})
 			}).then(function(res){
 			    if(res.status=200){
 				   self.select.data=res.data;
@@ -617,11 +617,11 @@ export default {
 			var self=this;
 			self.select.start=true;
 			var sql=`select 0 errcode,'ok'errmsg,json_query(crmzdy_87700904) s,'@sql' sql from crm_zdytable_238592_26995_238592_view where id=1 for json path,without_array_wrapper`;
-			//console.error(sql)
+			//console.error(sql);
 			self.$axios({
-				method: 'get',
+				method: 'post',
 				url:url_local,
-				params:{sql1:sql}
+				data:$.param({sql1:sql})
 			}).then(function(res){
 			    if(res.status=200){
 				   let s=res.data&&res.data.s;

@@ -801,11 +801,12 @@ export default {
 			if (self.select.gym_selected=="all"||!self.select.gym_selected) return;
 			var sql_phones="select isnull((select top 1 crm_name phones from crm_zdytable_238592_27059_238592_view where crmzdy_82053884='@gymcode'),'') phones"
 			sql_phones = sql_phones.replace("@gymcode",self.gymcode_cur);
-			self.$http.jsonp(url_jsonp,{
-				sql1: sql_phones
-			},{
-				jsonp:'callback'
-			}).then(function(res){
+		    this.$axios({
+				method: 'post',
+				url:url_jsonp,
+                data:$.param({sql1: sql_phones})
+			}).
+			then(function(res){
 				var res= res.data.info[0].rec;
 				if(typeof res=='object'){
 					res = res[0].phones.split("|");
@@ -842,11 +843,12 @@ export default {
 			var sql_update_phones = "merge into crm_zdytable_238592_27059_238592_view t using (select '@phones' phones,'@gymcode' gymcode ) s on t.crmzdy_82053884=s.gymcode when matched then update set t.crm_name= s.phones";
 			sql_update_phones += " when not matched by target then insert (org_id,cust_id,crm_syrID,create_time,crm_name,crmzdy_82053884/*gymcode*/) values (238592,279833,279833,getdate(),s.phones,s.gymcode);select 'ok' status;"; 
 			sql_update_phones = sql_update_phones.replace('@phones',res.join('|')).replace('@gymcode',self.gymcode_cur);
-			self.$http.jsonp(url_jsonp,{
-				sql1: sql_update_phones
-			},{
-				jsonp:'callback'
-			}).then(function(res){
+		    this.$axios({
+				method: 'post',
+				url:url_jsonp,
+                data:$.param({sql1: sql_update_phones})
+			}).
+			then(function(res){
 				var res= res.data.info[0].rec;
 				if(typeof res=='object'){
 					this.alertInfo.title="提示";
@@ -871,18 +873,22 @@ export default {
 			if(typeof self.select.gym_selected!='string'){
 				gym_selected=self.select.gym_selected[0];
 			}
-			self.$http.jsonp(this.url_coupon,{
+ 
+            let oject_param={
                 page: self.pagenation.pageNow,
                 centerid: gym_selected,
 				campain: self.select.campaign_selected[0],
 				search: self.search&&self.search.trim(),
 				pageSize:self.pagenation.pageSize
-            },{
-                jsonp:'callback'
-            }).then(function(res){
+            }
+		    this.$axios({
+				method: 'post',
+				url:url_coupon,
+                data:$.param(oject_param)
+			}).
+			then(function(res){
 				var tbl_coupon=sql_coupon;
 				res = res.data;
-
 			    if(res && res.total>0){
 					var sql_data="";
 					res.data.map(function(d){
@@ -928,12 +934,12 @@ export default {
 			if(!this.validate()) return;
 			var self=this;
             self.select.start=true;
-            self.$http.jsonp(url_local,{
-                sql1: self.sqlBuilder,
-                onlysql:(self.select.onlysql?1:0)
-            },{
-                jsonp:'callback'
-            }).then(function(res){ 
+		    this.$axios({
+				method: 'post',
+				url:url_local,
+                data:$.param({sql1:self.sqlBuilder,onlysql:(self.select.onlysql?1:0)})
+			}).
+			then(function(res){ 
 				if(res.status==200){
 					self.select.data=res.data;
 				}

@@ -89,8 +89,10 @@ export default {
              if(param&&param.iduser){
                 sql_quanxian = sql_quanxian.replace(/iduser/ig,param.iduser);
              }
-            this.$axios.get(url_jsonp,{
-                params:{sql1:sql_quanxian}
+             this.$axios({
+                    method: 'post',
+                    url:url_jsonp,
+                    data: $.param({sql1: sql_quanxian})
             })
             .then(function(res){
                 if(res.status==200 && res.data.info[0].rec.constructor !=String){
@@ -108,9 +110,12 @@ export default {
                 sql_getGym = sql_getGym.replace(/iduser/ig,param.iduser);
              }
 			 sql_getGym = this.convertor.ToUnicode(sql_getGym);
-             self.$axios.get(url_jsonp,{
-                 params:{sql1: sql_getGym}
-             }).then(function(res){
+             this.$axios({
+                    method: 'post',
+                    url:url_jsonp,
+                    data:$.param({sql1: sql_getGym})
+            })
+             .then(function(res){
                  if(res.status==200){
                     self.select.gyms = res.data.info[0].rec;
                     self.select.gyms.map(function(g){

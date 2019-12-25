@@ -589,11 +589,14 @@ export default {
 
             sql = this.convertor.ToUnicode(sql);
             self.select.start=true;
-            self.$http.jsonp(url_jsonp,{
+            let obj_param={
                 sql1: sql ,
                 onlysql:(self.onlysql.checked?1:0)
-            },{
-                jsonp:'callback'
+            };
+            this.$axios({
+                method:'post',
+                url: url_jsonp,
+                data: qs.stringify(obj_param)
             }).then(function(res){
                 var sql =res.data.info[1].sql;
                 sql =sql.replace(/quot;/gi,"'")
@@ -652,12 +655,12 @@ export default {
             sql=sql.replace(/@where_other/ig," isnull(crmzdy_87686127,'')<>'活跃会员' and crmzdy_82053258 not like '测试%' and crmzdy_82053258 not like '%test%' and isnull(crmzdy_82053258,'')<>''");
             sql = this.convertor.ToUnicode(sql);
             self.select.start=true;
-            self.$http.jsonp(url_jsonp,{
-                sql1: sql ,
-                onlysql:(self.onlysql.checked?1:0)
-            },{
-                jsonp:'callback'
-            }).then(function(res){
+            this.$axios({
+                method:'post',
+                url: url_jsonp,
+                data: qs.stringify({sql1:sql,onlysql:(self.onlysql.checked?1:0)})
+            }).
+            then(function(res){
                 var sql =res.data.info[1].sql;
                 sql =sql.replace(/quot;/gi,"'")
                 self.onlysql.value=[sql];
@@ -678,12 +681,12 @@ export default {
         var sql = sql_kxj_ht;
         sql = sql.replace("@where_ht_dt",this.where_ht_dt);
         sql = this.convertor.ToUnicode(sql);
-        self.$http.jsonp(url_jsonp,{
-            sql1: sql ,
-            onlysql:(self.onlysql.checked?1:0)
-        },{
-            jsonp:'callback'
-        }).then(function(res){
+        this.$axios({
+                method:'post',
+                url: url_jsonp,
+                data: qs.stringify({sql1:sql,onlysql:(self.onlysql.checked?1:0)})
+            }).
+            then(function(res){
             var sql =res.data.info[1].sql;
             sql =sql.replace(/quot;/gi,"'")
             self.onlysql.value=[sql];
@@ -714,12 +717,13 @@ export default {
             var sql = sql_handle;
             sql = sql.replace("@dtstart",dtStart).replace("@dtend",dtEnd).replace("@where_campaign",this.where_campaign);
             sql = this.convertor.ToUnicode(sql);
-            self.$http.jsonp(url_jsonp,{
-                sql1: sql ,
-                onlysql:(self.onlysql.checked?1:0)
-            },{
-                jsonp:'callback'
-            }).then(function(res){
+ 
+            this.$axios({
+                method:'post',
+                url: url_jsonp,
+                data: qs.stringify({sql1:sql,onlysql:(self.onlysql.checked?1:0)})
+            }).
+            then(function(res){
                 var sql =res.data.info[1].sql;
                 sql =sql.replace(/quot;/gi,"'")
                 if(sql)self.onlysql.value.push(sql);
@@ -736,12 +740,12 @@ export default {
             sql = sql_handle_down;
             sql = sql.replace("@dtstart",dtStart).replace("@dtend",dtEnd).replace("@where_campaign",this.where_campaign);
             sql = this.convertor.ToUnicode(sql);
-            self.$http.jsonp(url_jsonp,{
-                sql1: sql ,
-                onlysql:(self.onlysql.checked?1:0)
-            },{
-                jsonp:'callback'
-            }).then(function(res){
+            this.$axios({
+                method:'post',
+                url: url_jsonp,
+                data: qs.stringify({sql1:sql,onlysql:(self.onlysql.checked?1:0)})
+            }).
+            then(function(res){
                 var sql =res.data.info[1].sql;
                 sql =sql.replace(/quot;/gi,"'")
                 self.onlysql.value.push(sql);
@@ -758,12 +762,13 @@ export default {
             sql = sql_handle_time_ave;
             sql = sql.replace("@dtstart",dtStart).replace("@dtend",dtEnd).replace("@where_campaign",this.where_campaign);
             sql = this.convertor.ToUnicode(sql);
-            self.$http.jsonp(url_jsonp,{
-                sql1: sql ,
-                onlysql:(self.onlysql.checked?1:0)
-            },{
-                jsonp:'callback'
-            }).then(function(res){
+ 
+            this.$axios({
+                method:'post',
+                url: url_jsonp,
+                data: qs.stringify({sql1:sql,onlysql:(self.onlysql.checked?1:0)})
+            }).
+            then(function(res){
                 var sql =res.data.info[1].sql;
                 sql =sql.replace(/quot;/gi,"'")
                 self.onlysql.value.push(sql);
@@ -784,12 +789,12 @@ export default {
         self.sumData=[];
         self.check={};
         self.noData=false;
-        self.$http.jsonp(url_jsonp,{
-            sql1: self.sqlEnrolTotal,
-            onlysql:(self.onlysql.checked?1:0)
-        },{
-            jsonp:'callback'
-        }).then(function(res){
+        this.$axios({
+            method:'post',
+            url: url_jsonp,
+            data: qs.stringify({sql1:sql,onlysql:(self.onlysql.checked?1:0)})
+        }).
+        then(function(res){
             var sql =res.data.info[1].sql;
             sql =sql.replace(/quot;/gi,"'")
             self.onlysql.value=[sql];

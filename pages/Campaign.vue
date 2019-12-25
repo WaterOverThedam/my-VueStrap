@@ -105,12 +105,13 @@ export default {
             cur.isActive=true;
         },
         getAcl_jsonp:function(){
-            this.$http.jsonp(url_jsonp,{
-                sql1:sql_quanxian
-            },{
-                jsonp:'callback'
-            }).then(function(res){
-			    var self=this;
+            let self=this;
+		    this.$axios({
+				method: 'post',
+				url:url_jsonp,
+                data:$.param({sql1:sql_quanxian})
+			}).
+            then(function(res){
                 if(res.data.info[0].rec.constructor !=String){
                      self.select.acl = res.data.info[0].rec[0].acl;
 				}
@@ -122,11 +123,11 @@ export default {
 		     var self=this;
              sql_getGym = this.convertor.ToUnicode(sql_getGym);
              self.select.gyms=[];
-             self.$http.jsonp(url_jsonp,{
-                 sql1: sql_getGym
-             },{
-                 jsonp:'callback'
-             }).then(function(res){
+		     self.$axios({
+				method: 'post',
+				url:url_jsonp,
+                data:$.param({sql1:sql_getGym})
+			}).then(function(res){
                  if(typeof res.data.info[0].rec!="string"){
                     self.select.gyms = res.data.info[0].rec; //触其它data更新
                  }
@@ -135,13 +136,13 @@ export default {
              });
        },
        getCampaign:function(func){
-             var self=this;
-             self.select.campaigns=[];
-             self.$http.jsonp(url_jsonp,{
-                 sql1: sql_campaign
-             },{
-                 jsonp:'callback'
-             }).then(function(res){
+            var self=this;
+            self.select.campaigns=[];
+			self.$axios({
+				method: 'post',
+				url:url_jsonp,
+                data:$.param({sql1:sql_campaign})
+			}).then(function(res){
                  var campaigns= res.data.info[0].rec;
                  campaigns.map(function(g){
                      if(self.isadmin){

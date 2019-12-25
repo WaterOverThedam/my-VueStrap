@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: './build',
     publicPath: 'build/',
-    filename: '[name]_page.js',
+    filename: '[name]_page_v3.js',
   },
   resolve: {
     root: path.resolve('./'),
