@@ -7,6 +7,41 @@
             </div>
             <div slot="modal-body" class="modal-body">
                 <div class="ui segment importance">
+                   <p class="subsection">金鼠迎新春新年活动</p>
+                   <p class="head"> 一、新年活动时间：2020-01-09至2020-02-08</p>
+                   <p class="head">两个阶段：2020-01-09至2020-01-23（迎新年接红包）</p>
+                   <p class="head" style="padding-left:70px">  2020-01-23至2020-02-08（迎新春接金鼠）</p>
+                   <p class="item"><span class="head">中心输出材料部分 </span>（下载路径为“企业网盘＞运营总监资料＞市场＞全国市场活动资料＞2020年全国市场活动资料＞金鼠迎新春”）</p>
+                   <br/>
+                    <div class="ui medium images">
+                        <img class="first" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/newYear/mouseYear_hb0.png">
+                        <img src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/newYear/mouseYear_hb1.png">
+                    </div>
+                    <br/>
+                    <p class="head">二、活动流程：</p>
+                    <p class="indent item">1)用户扫描二维码至“金鼠迎新春”活动H5页面</p>
+                    <p class="indent item">2)了解活动规则后点击“开始游戏”进入活动页面；</p>
+                    <p class="indent item">3)此游戏为接物类游戏，在60秒时间内，用户需拖动Tada去接这些元素，接到炸弹游戏结束；</p>
+                    <p class="indent item">4)用户共1次游戏机会，分享给好友或朋友圈可再获得1次机会；</p>
+                    <p class="indent item">5）游戏结束，根据当前现有成绩中个人最好成绩显示所获得课程抵扣券金额，用户完善个人信息，填写兑奖的中心，同时可以勾选领取体验课选项。</p>
+                    <p class="indent item">6）用户需在活动结束后至所填写的中心进行核销领取奖励。</p>
+                    <p class="indent item yellow">核销方式：</p>
+                    <p class="indent item yellow">中心老师打开以下核销链接，输入核销码【76903582】进行扫码核销。</p>
+                    <p class="indent item yellow">核销链接: http://camp.thelittlegym.com.cn/bindmanager/  </p>
+                    <p class="indent item yellow">核销密码：76903582</p> 
+                    <p class="head">三、奖品设置：</p>
+                    <p class="indent item">2020-01-09至2020-01-23（迎新年接红包）</p>
+                    <p class="indent item">（1）小小运动馆课程抵扣券（100元~200元不等）；</p>
+                    <p class="indent item">（2）600元小小运动馆生日派对抵扣券；</p>
+                    <p class="indent item">2020-01-23至2020-02-08（迎新春接金鼠）</p>
+                    <p class="indent item">（1）小小运动馆课程抵扣券（50元~100元不等）；</p>
+                    <p class="indent item">（2）600元小小运动馆生日派对抵扣券；</p>
+                    <br/>
+                    <p class="indent head">课程抵扣券有效期至2020年2月29日</p>
+                    <p class="indent head">生日派对抵扣券有效期至2020年12月31日</p>
+                </div>
+                <div class="ui segment importance">
+                    <p class="subsection">2019冬季Showweek（2020.1.6-1.12）提醒：表演周+考级周</p>
                     <p class="head">
                        <a href="#" @click.prevent="toDetail" style="color:red">
                          <span>2019冬季Showweek（2020.1.6-1.12）宣讲话术等操作事项提醒&nbsp;&nbsp; </span>
@@ -73,7 +108,7 @@
                </p> 
             </div>
         </modal>
-        <Tip-for1212 :show="tip1212"></Tip-for1212>
+        <!-- <Tip-for1212 :show="tip1212"></Tip-for1212> -->
     </div>
 
  </template>
@@ -97,7 +132,7 @@
                 tip1212:false,
                 wording:{show:false,title:"2019冬季Showweek宣讲话术&其他重要操作事项提醒"},
                 procedures:{show:false,title:"中心挑战赛（中心复赛）流程",pic:["https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai1.png","https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai2.png"]},
-                importance:{show:false,title:"2019冬季Showweek（2020.1.6-1.12）提醒：表演周+考级周"},
+                importance:{show:false,title:"2020年1月表演周&考级周提醒&红包游戏"},
                 jump_post:{
                     show:false,title:"飞跃挑战赛",closable:false,
                     urlPrefix:"https://static.thelittlegym.com.cn",
@@ -141,7 +176,7 @@
             },
             to_1212(params) {
                 var now = new Date();
-                var end = new Date("2020-01-10");
+                var end = new Date("2020-11-10");
                 if(now<end){
                     this.importance.show=true;
                 }
@@ -153,6 +188,7 @@
     }
 </script>
 <style scoped>
+
   .ui.big.image, .ui.big.images .image, .ui.big.images img, .ui.big.images svg {
     width: 520px;
     height: auto;
@@ -163,20 +199,29 @@
     height: auto;
     font-size: .92857143rem;
   }
+  .ui.medium.images .first{
+    width:274px!important;  
+  }
+  .yellow{
+      background-color: yellow;
+  }
   .head{
      font-weight: 1000;
-     font-size: 22px !important;
+     font-size: 21px !important;
   }
  
   .indent{
      margin-left:30px
   }
-  .importance :not(.item){
-      font-weight: bold;
+  .importance{
       font-size: 18px !important;
+    
   }
-  .item{
-      font-size: 17px !important;
+  p{
+     margin:0.6% auto; 
+  }
+  .item{ 
+      font-size: 18px !important;
   }
   .parent{
       position: relative;
@@ -191,4 +236,10 @@
   .txt{
       font-size: 16px;
   }
-</style>
+  .subsection{
+    color:blue;
+    font-weight: bold;
+    margin:2% auto;
+    font-size: 28px !important;
+  }
+</style>5
