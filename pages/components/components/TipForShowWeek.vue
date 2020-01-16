@@ -40,21 +40,7 @@
                     <p class="indent head">课程抵扣券有效期至2020年2月29日</p>
                     <p class="indent head">生日派对抵扣券有效期至2020年12月31日</p>
                 </div>
-                <div class="ui segment importance security">
-                    <p class="subsection">“安全”是小小运动馆的第一要素！</p>
-                    <p class="parent"> <span class="yellow">请全国中心坚持做好OASIS上的每日中心安全检查</span></p>
-                    <img class="ui centered massive image pic" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/security/security.png">
-                    <p class="parent"> <span class="yellow">2019年 中心发生过的意外事故 引发的原因</span></p>
-                    <p class="indent item"><b>1，中心老师未尽到相应责任</b>【未及时保护、安全意识不强、安全距离未强调等】</p>
-                    <p class="indent item"><b>2，监护人未尽到相应监护责任</b>【亲子班需要监护人起到保护者的角色、开放时间或者小朋友独自在教室时监护人需在旁保护小朋友的安全等】</p>
-                    <p class="indent item"><b>3，小朋友的运动技能/动作的标准性</p>
-                    <p class="indent item"><b>4，由于第三者小朋友引起的（小朋友之间的推搡）</b></p>
-                    <p class="parent"> <span class="yellow">中心如何在安全方面做的更好，避免不必要的意外</span></p>
-                    <p class="indent item"><b>1，中心提高所有老师的安全意识</b></p>
-                    <p class="indent item"><b>2，中心老师保护手法的巩固</b></p>
-                    <p class="indent item"><b>3，中心就关于安全方面的宣讲（同时灌输给监护人）</b></p>
-                    <p class="indent item"><b>4，小朋友的自我保护意识</b></p>
-                </div>
+
                 <!--showWeek <div class="ui segment importance">
                     <p class="subsection">2019冬季Showweek（2020.1.6-1.12）提醒：表演周+考级周</p>
                     <p class="head">
@@ -124,19 +110,23 @@
             </div>
         </modal>
         <!-- <Tip-for1212 :show="tip1212"></Tip-for1212> -->
+        <Tip-for-security :show="sercurity"></tip-for-security>
     </div>
 
  </template>
 
 <script> 
+
     import modal from '@/src/Modal.vue';
     import Poptip from '@/src/poptip';
     import TipFor1212 from './TipFor1212.vue';
+    import TipForSecurity from './TipForSecurity.vue';
+    
     export default {
         components:{
            modal,
            Poptip,
-           TipFor1212
+           TipForSecurity
         },
         props: {
 
@@ -145,9 +135,10 @@
             return {
                 tmp:false,
                 tip1212:false,
+                sercurity:false,
                 wording:{show:false,title:"2019冬季Showweek宣讲话术&其他重要操作事项提醒"},
                 procedures:{show:false,title:"中心挑战赛（中心复赛）流程",pic:["https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai1.png","https://static.thelittlegym.com.cn/assert/img/oasis/small/procedure_fusai2.png"]},
-                importance:{show:false,title:"2020年1月表演周&考级周提醒&红包游戏"},
+                importance:{show:false,title:"红包游戏&安全项目提醒"},
                 jump_post:{
                     show:false,title:"飞跃挑战赛",closable:false,
                     urlPrefix:"https://static.thelittlegym.com.cn",
@@ -177,7 +168,8 @@
             },
             importance:{
               handler(newValue, oldValue) {
-                if(!newValue.show && !this.wording.show && !this.tmp) this.tip1212=true;
+                //if(!newValue.show && !this.wording.show && !this.tmp) this.tip1212=true;
+                if(!newValue.show) this.sercurity=true;
               },
               deep:true
             }
@@ -228,7 +220,7 @@
   }
   .parent{
      text-align:center;
-     margin:3%!important;
+     margin:2%!important;
   }
   .head{
      font-weight: 1000;
@@ -268,4 +260,4 @@
     text-align: center;
     font-size: 28px !important;
   }
-</style>5
+</style>
