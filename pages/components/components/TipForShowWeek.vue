@@ -40,7 +40,22 @@
                     <p class="indent head">课程抵扣券有效期至2020年2月29日</p>
                     <p class="indent head">生日派对抵扣券有效期至2020年12月31日</p>
                 </div>
-                <div class="ui segment importance">
+                <div class="ui segment importance security">
+                    <p class="subsection">“安全”是小小运动馆的第一要素！</p>
+                    <p class="parent"> <span class="yellow">请全国中心坚持做好OASIS上的每日中心安全检查</span></p>
+                    <img class="ui centered massive image pic" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/security/security.png">
+                    <p class="parent"> <span class="yellow">2019年 中心发生过的意外事故 引发的原因</span></p>
+                    <p class="indent item"><b>1，中心老师未尽到相应责任</b>【未及时保护、安全意识不强、安全距离未强调等】</p>
+                    <p class="indent item"><b>2，监护人未尽到相应监护责任</b>【亲子班需要监护人起到保护者的角色、开放时间或者小朋友独自在教室时监护人需在旁保护小朋友的安全等】</p>
+                    <p class="indent item"><b>3，小朋友的运动技能/动作的标准性</p>
+                    <p class="indent item"><b>4，由于第三者小朋友引起的（小朋友之间的推搡）</b></p>
+                    <p class="parent"> <span class="yellow">中心如何在安全方面做的更好，避免不必要的意外</span></p>
+                    <p class="indent item"><b>1，中心提高所有老师的安全意识</b></p>
+                    <p class="indent item"><b>2，中心老师保护手法的巩固</b></p>
+                    <p class="indent item"><b>3，中心就关于安全方面的宣讲（同时灌输给监护人）</b></p>
+                    <p class="indent item"><b>4，小朋友的自我保护意识</b></p>
+                </div>
+                <!--showWeek <div class="ui segment importance">
                     <p class="subsection">2019冬季Showweek（2020.1.6-1.12）提醒：表演周+考级周</p>
                     <p class="head">
                        <a href="#" @click.prevent="toDetail" style="color:red">
@@ -77,7 +92,7 @@
                     <br/>
                     <img class="ui left aligned huge image" src="https://static.thelittlegym.com.cn/assert/img/oasis/origin/showWeek/comments.png">
  
-                </div>
+                </div> -->
             </div>
             <div slot="modal-footer" >
                <p class="text-center">
@@ -205,6 +220,16 @@
   .yellow{
       background-color: yellow;
   }
+  .security .yellow{
+      background-color: yellow;
+      text-align: center;
+      font-size: 21px !important;
+      padding: 3px !important;
+  }
+  .parent{
+     text-align:center;
+     margin:3%!important;
+  }
   .head{
      font-weight: 1000;
      font-size: 21px !important;
@@ -213,9 +238,9 @@
   .indent{
      margin-left:30px
   }
-  .importance{
+  .security .importance{
       font-size: 18px !important;
-    
+      text-align: center;
   }
   p{
      margin:0.6% auto; 
@@ -240,6 +265,7 @@
     color:blue;
     font-weight: bold;
     margin:2% auto;
+    text-align: center;
     font-size: 28px !important;
   }
 </style>5
