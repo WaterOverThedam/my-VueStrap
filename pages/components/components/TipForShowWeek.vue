@@ -181,16 +181,18 @@
               this.wording.show=true;
               this.tmp=false;        //引用tmp ,让importance不级联触发
             },
-            to_1212(params) {
+            to_tip_other(params) {
+                this.sercurity=true;
+   
                 var now = new Date();
-                var end = new Date("2020-11-10");
+                var end = new Date("2020-02-08");
                 if(now<end){
                     this.importance.show=true;
                 }
             }
         },
         ready:function(){
-            this.to_1212();
+            this.to_tip_other();
         }
     }
 </script>
